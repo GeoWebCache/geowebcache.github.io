@@ -1,0 +1,146 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Storage &mdash; GeoWebCache 1.6.1 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.6.1 User Manual" href="../index.html" />
+      <link rel="up" title="Configuration" href="index.html" />
+      <link rel="next" title="Enabling/Disabling Services" href="services.html" />
+      <link rel="prev" title="Security" href="security.html" />
+</head>
+<body class="configuration/storage">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.6.1 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.6.1 Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Configuration</a> &raquo;</li>
+  <li>Storage</li>
+</ul>
+        
+  <div class="section" id="storage">
+<span id="configuration-storage"></span><h1>Storage<a class="headerlink" href="#storage" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="cache">
+<h2>Cache<a class="headerlink" href="#cache" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The cache is sometimes referred to as the &#8220;blobstore&#8221;.</p>
+</div>
+<p>The cache is a directory structure consisting of various image files organized by layer and zoom level.  By default, the cache is stored in the temporary storage folder specified by the web application container.  (For Tomcat, this is the <tt class="file docutils literal"><span class="pre">temp</span></tt> directory inside the root.)   The directory created will be called <tt class="file docutils literal"><span class="pre">geowebcache</span></tt>.  If this directory is not available, GeoWebCache will attempt to create a new <tt class="file docutils literal"><span class="pre">geowebcache</span></tt> directory in the location specified by the <tt class="docutils literal"><span class="pre">TEMP</span></tt> system environment variable.</p>
+<p>There are a few ways to change the location of the cache:</p>
+<ul class="simple">
+<li>JVM system environment variable</li>
+<li>Servlet context parameteter</li>
+<li>Operating system environment variable</li>
+</ul>
+<p>The variable in all cases is defined as <tt class="docutils literal"><span class="pre">GEOWEBCACHE_CACHE_DIR</span></tt>.</p>
+<p>To set as a JVM system environment variable, add the parameter <tt class="docutils literal"><span class="pre">-DGEOWEBCACHE_CACHE_DIR=&lt;path&gt;</span></tt> to your servlet startup script.  In Tomcat, this can be added to the Java Options (JAVA_OPTS) variable in the startup script.</p>
+<p>To set as a servlet context parameter, edit the GeoWebCache <tt class="file docutils literal"><span class="pre">web.xml</span></tt> file and add the following code:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;context-param&gt;</span>
+  <span class="nt">&lt;param-name&gt;</span>GEOWEBCACHE_CACHE_DIR<span class="nt">&lt;/param-name&gt;</span>
+  <span class="nt">&lt;param-value&gt;</span>PATH<span class="nt">&lt;/param-value&gt;</span>
+<span class="nt">&lt;/context-param&gt;</span>
+</pre></div>
+</div>
+<p>where <tt class="docutils literal"><span class="pre">PATH</span></tt> is the location of the cache directory.</p>
+<p>To set as an operating system environment variable, run one of the the following commands:</p>
+<p>Windows:</p>
+<div class="highlight-python"><pre>&gt; set GEOWEBCACHE_CACHE_DIR=&lt;path&gt;</pre>
+</div>
+<p>Linux/OS X:</p>
+<div class="highlight-python"><pre>$ export GEOWEBCACHE_CACHE_DIR=&lt;path&gt;</pre>
+</div>
+<p>Finally, although not recommended, it is possible to set this location directly in the <tt class="file docutils literal"><span class="pre">geowebcache-core-context.xml</span></tt> file.  Uncomment this code:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- bean id=&quot;gwcBlobStore&quot; class=&quot;org.geowebcache.storage.blobstore.file.FileBlobStore&quot; destroy-method=&quot;destroy&quot;&gt;</span>
+<span class="c">  &lt;constructor-arg value=&quot;/tmp/gwc_blobstore&quot; /&gt;</span>
+<span class="c">&lt;/bean --&gt;</span>
+</pre></div>
+</div>
+<p>making sure to edit the path.  As usual, any changes to the servlet configuration files will require <a class="reference internal" href="reload.html#configuration-reload"><em>Reloading Configuration</em></a>.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="security.html" title="previous chapter">Security</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="services.html" title="next chapter">Enabling/Disabling Services</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Storage</a><ul>
+<li><a class="reference internal" href="#cache">Cache</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="security.html" title="previous chapter">Security</a></li>
+            <li>Next: <a href="services.html" title="next chapter">Enabling/Disabling Services</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/configuration/storage.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Jan 19, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

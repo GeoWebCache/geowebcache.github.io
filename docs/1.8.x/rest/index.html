@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>REST API &mdash; GeoWebCache 1.8.x User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.8.x',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.8.x User Manual" href="../index.html" />
+      <link rel="next" title="Managing Layers through the REST API" href="layers.html" />
+      <link rel="prev" title="Special HTTP Response Headers" href="../services/responseheaders.html" />
+</head>
+<body class="rest/index">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.8.x User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.8.x Home</a> &raquo;</li>
+  <li>REST API</li>
+</ul>
+        
+  <div class="section" id="rest-api">
+<span id="rest"></span><h1>REST API<a class="headerlink" href="#rest-api" title="Permalink to this headline">¶</a></h1>
+<p>This section will discuss the GeoWebCache REST API.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="layers.html">Managing Layers through the REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seed.html">Seeding and truncating through the REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seed.html#querying-the-running-tasks">Querying the running tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seed.html#terminating-running-tasks">Terminating running tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diskquota.html">Disk Quota REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="masstruncate.html">Mass Truncation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statistics.html">In Memory Cache Statistics</a></li>
+</ul>
+</div>
+<div class="section" id="formats-and-representations">
+<h2>Formats and representations<a class="headerlink" href="#formats-and-representations" title="Permalink to this headline">¶</a></h2>
+<p>A <tt class="docutils literal"><span class="pre">format</span></tt> specifies how a resource should be represented. A format is used:</p>
+<ul class="simple">
+<li>In an operation to specify what representation should be returned to the
+client</li>
+<li>In a POST or PUT operation to specify the representation being sent to the
+server</li>
+</ul>
+<p>In a GET operation the format can be specified in a number of ways. The first is
+with the <tt class="docutils literal"><span class="pre">Accepts</span></tt> header. For instance setting the header to &#8220;text/xml&#8221; would
+specify the desire to have the resource returned as XML. The second method of
+specifying the format is via file extension. For example consider the resource
+&#8220;foo&#8221;. To request a representation of foo as XML the request uri would end with
+&#8220;foo.xml&#8221;. To request as JSON the request uri would end with &#8220;foo.json&#8221;. When no
+format is specified the server will use its own internal format, usually html.</p>
+<p>In a POST or PUT operation the format specifies 1) the representatin of the
+content being sent to the server, and 2) the representation of the resposne to
+be sent back. The former is specified with the <tt class="docutils literal"><span class="pre">Content-type</span></tt> header. To send
+a representation in XML, the content type &#8220;text/xml&#8221; or &#8220;application/xml&#8221; would
+be used. The latter is specified with the <tt class="docutils literal"><span class="pre">Accepts</span></tt> header as specified in the
+above paragraph describing a GET operation.</p>
+<p>The following table defines the <tt class="docutils literal"><span class="pre">Content-type</span></tt> values for each format:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Format</th>
+<th class="head">Content-type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>XML</td>
+<td>text/xml</td>
+</tr>
+<tr class="row-odd"><td>JSON</td>
+<td>application/json</td>
+</tr>
+<tr class="row-even"><td>HTML</td>
+<td>application/html</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h2>
+<p>POST, PUT, and DELETE requests (requests that modify resources) require the
+client to be authenticated. Currently the only supported method of
+authentication is Basic authentication.</p>
+</div>
+<div class="section" id="status-codes">
+<h2>Status codes<a class="headerlink" href="#status-codes" title="Permalink to this headline">¶</a></h2>
+<p>A Http request uses a <tt class="docutils literal"><span class="pre">status</span> <span class="pre">code</span></tt> to relay the outcome of the request to the
+client. Different status codes are used for various purposes through out this
+document. These codes are described in detail by the <a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">http specification</a>.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="../services/responseheaders.html" title="previous chapter">Special HTTP Response Headers</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="layers.html" title="next chapter">Managing Layers through the REST API</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">REST API</a><ul>
+<li><a class="reference internal" href="#formats-and-representations">Formats and representations</a></li>
+<li><a class="reference internal" href="#authentication">Authentication</a></li>
+<li><a class="reference internal" href="#status-codes">Status codes</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="../services/responseheaders.html" title="previous chapter">Special HTTP Response Headers</a></li>
+            <li>Next: <a href="layers.html" title="next chapter">Managing Layers through the REST API</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/rest/index.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Jun 18, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Development &mdash; GeoWebCache trunk User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'trunk',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache trunk User Manual" href="../index.html" />
+      <link rel="prev" title="Troubleshooting" href="../troubleshooting/index.html" />
+</head>
+<body class="development/index">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache trunk User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache trunk Home</a> &raquo;</li>
+  <li>Development</li>
+</ul>
+        
+  <div class="section" id="development">
+<span id="id1"></span><h1>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h1>
+<p>You are encouraged to help contribute code to GeoWebCache.  To do so, you will first need to set up the proper development environment.</p>
+<p>This is the current prerequisites:</p>
+<blockquote>
+<ul class="simple">
+<li>Sun/Oracle Java Developer Kit SE, version 1.5</li>
+<li><a class="reference external" href="http://maven.apache.org/">Maven 2.x</a></li>
+<li><a class="reference external" href="http://git-scm.com">Git</a></li>
+</ul>
+</blockquote>
+<p>Please make sure you use <strong>Java 1.5</strong> to compile to ensure that we do not introduce dependencies only available in 1.6.</p>
+<p>You are encouraged to join the <a class="reference external" href="https://lists.sourceforge.net/lists/listinfo/geowebcache-devel">GeoWebCache Developers mailing list</a> to discuss your work.  It is always a good idea to ask whether anyone else has already solved the same problem.</p>
+<div class="section" id="setting-up-maven">
+<h2>Setting up Maven<a class="headerlink" href="#setting-up-maven" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Get the installation file from <a class="reference external" href="http://maven.apache.org/download.html">http://maven.apache.org/download.html</a>, unpack and include the <tt class="docutils literal"><span class="pre">bin</span></tt> directory in your PATH variable.</p>
+</li>
+<li><p class="first">Set JAVA_HOME to point to the root directory of your JDK, for example:</p>
+<p>Linux/OS X:</p>
+<div class="highlight-python"><pre>$ export JAVA_HOME=/opt/jdk1.5.0_21</pre>
+</div>
+<p>Windows:</p>
+<div class="highlight-python"><pre>&gt; set JAVA_HOME=C:\Program Files\Java\jdk1.5.0_21</pre>
+</div>
+</li>
+<li><p class="first">Test that Maven is installed correctly:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mvn</span> <span class="o">-</span><span class="n">version</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Check that you are using the right version of the <tt class="docutils literal"><span class="pre">javac</span></tt> compiler, as this is determined by PATH, not JAVA_HOME:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">javac</span> <span class="o">-</span><span class="n">version</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Check out the code:</p>
+<div class="highlight-python"><pre>git clone https://github.com/GeoWebCache/geowebcache.git</pre>
+</div>
+</li>
+</ol>
+<p>To build the code, enter the <tt class="docutils literal"><span class="pre">geowebcache</span></tt> directory and run:</p>
+<div class="highlight-python"><pre>mvn clean install</pre>
+</div>
+<p>To build with an embedded Jetty server to test changes:</p>
+<div class="highlight-python"><pre>mvn clean install jetty:run</pre>
+</div>
+<p>To build a WAR file:  Currently GeoWebCache has all classes in a single maven project. To build a WAR file, edit <tt class="docutils literal"><span class="pre">pom.xml</span></tt> and replace <tt class="docutils literal"><span class="pre">&lt;!--WAR</span></tt> and <tt class="docutils literal"><span class="pre">WAR--&gt;</span></tt> with <tt class="docutils literal"><span class="pre">&lt;</span></tt> and <tt class="docutils literal"><span class="pre">&gt;</span></tt> respectively. Run <tt class="docutils literal"><span class="pre">mvn</span> <span class="pre">clean</span> <span class="pre">install</span></tt> and you will find <tt class="docutils literal"><span class="pre">geowebcache.war</span></tt> inside the target directory.</p>
+</div>
+<div class="section" id="setting-up-eclipse">
+<h2>Setting up Eclipse<a class="headerlink" href="#setting-up-eclipse" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Inside the source code directory, run:</p>
+<div class="highlight-python"><pre>mvn clean install eclipse:eclipse</pre>
+</div>
+</li>
+</ol>
+<div class="section" id="create-a-new-workspace-in-eclipse">
+<h3>Create a new workspace in Eclipse<a class="headerlink" href="#create-a-new-workspace-in-eclipse" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Set up Maven repository  (Window -&gt; Preferences -&gt; Java -&gt; Build Path -&gt; Class Path Variables)</li>
+<li>Add a new variable M2_REPO, and set the path to &lt;home directory&gt;/.m2/repository</li>
+<li>Next, go to Java -&gt; Code Style -&gt; Formatter.  Click on Import, choose geowebcache/tools/formatter.xml</li>
+<li>Now we need to import the actual project (File -&gt; Import -&gt; Existing Projects into Workspace)</li>
+</ol>
+<p>To run GeoWebCache, go to Run -&gt; Debug Configurations, double-click on Java Configurations</p>
+<blockquote>
+<ul class="simple">
+<li>Set Name: GWC</li>
+<li>The Project: geowebcache</li>
+<li>For main class, set &#8220;Start&#8221;</li>
+</ul>
+</blockquote>
+<p>Then press &#8220;Close&#8221;, or &#8220;Debug&#8221; if you want to try it right away.</p>
+</div>
+</div>
+<div class="section" id="contributing-patches">
+<h2>Contributing patches<a class="headerlink" href="#contributing-patches" title="Permalink to this headline">¶</a></h2>
+<p>The prefered way of providing patches is to create an issue in GitHub a patch, which you create by running:</p>
+<div class="highlight-python"><pre>git diff &gt; patch.txt</pre>
+</div>
+<p>In addition to creating the issue, you are highly encouraged to jump on the <a class="reference external" href="https://lists.sourceforge.net/lists/listinfo/geowebcache-devel">GeoWebCache Developers mailing list</a> to introduce the patch.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="../troubleshooting/index.html" title="previous chapter">Troubleshooting</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference external" href="#">Development</a><ul>
+<li><a class="reference external" href="#setting-up-maven">Setting up Maven</a></li>
+<li><a class="reference external" href="#setting-up-eclipse">Setting up Eclipse</a><ul>
+<li><a class="reference external" href="#create-a-new-workspace-in-eclipse">Create a new workspace in Eclipse</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#contributing-patches">Contributing patches</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="../troubleshooting/index.html" title="previous chapter">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/development/index.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Jan 24, 2011.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

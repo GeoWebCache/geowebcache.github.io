@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Linux &mdash; GeoWebCache 1.6.2 User Manual</title>
+  <link rel="stylesheet" href="../../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.6.2',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../../searchindex.js"></script>
+  <link rel="shortcut icon" href="../../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.6.2 User Manual" href="../../index.html" />
+      <link rel="up" title="Installing Java and Tomcat" href="index.html" />
+      <link rel="next" title="Windows" href="windows.html" />
+      <link rel="prev" title="Installing Java and Tomcat" href="index.html" />
+</head>
+<body class="installation/prerequisites/linux">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../../index.html">GeoWebCache 1.6.2 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../../index.html">GeoWebCache 1.6.2 Home</a> &raquo;</li>
+  <li><a href="../index.html" accesskey="U">Installation</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Installing Java and Tomcat</a> &raquo;</li>
+  <li>Linux</li>
+</ul>
+        
+  <div class="section" id="linux">
+<span id="prerequisites-linux"></span><h1>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h1>
+<p>Due to licensing issues, many Linux distributions come with a variety of Java environments. Additionally, to minimize the chance of a security breach with default settings, most versions of Tomcat are configured to not allow access to the file system.  Therefore, it is highly recommended to follow these instructions, even if you already have a servlet container set up.</p>
+<div class="section" id="java-runtime-environment">
+<h2>Java Runtime Environment<a class="headerlink" href="#java-runtime-environment" title="Permalink to this headline">¶</a></h2>
+<p>In your browser, navigate to <a class="reference external" href="http://www.java.com/en/download/manual.jsp">http://www.java.com/en/download/manual.jsp</a>, and download the latest JRE (SE is fine; you do not need FX or EE). Make sure to select <strong>Linux_x64</strong> if you are running on an x86_64 kernel.  Take note of where you saved the file. (This document will assume the file is saved in <tt class="docutils literal"><span class="pre">/home/user/Download/</span></tt> and is named <tt class="docutils literal"><span class="pre">jre16.bin</span></tt> although the file name will likely be different.)</p>
+<p>Next, open a shell and switch to superuser. Depending on your distribution, type <tt class="docutils literal"><span class="pre">sudo</span> <span class="pre">su</span></tt> or just <tt class="docutils literal"><span class="pre">su</span></tt>. Then, <tt class="docutils literal"><span class="pre">cd</span> <span class="pre">/opt</span></tt> and run the command <tt class="docutils literal"><span class="pre">sh</span> <span class="pre">/home/user/Download/jre1.6.bin&gt;</span></tt>.  This should install Java into /opt. If you receive the message <tt class="docutils literal"><span class="pre">ELF</span> <span class="pre">not</span> <span class="pre">found</span></tt>, it probably means you need to get the <tt class="docutils literal"><span class="pre">Linux</span></tt> (i586) version instead of <tt class="docutils literal"><span class="pre">Linux_64</span></tt>.</p>
+</div>
+<div class="section" id="apache-tomcat">
+<h2>Apache Tomcat<a class="headerlink" href="#apache-tomcat" title="Permalink to this headline">¶</a></h2>
+<p>Back in your browser, navigate to <a class="reference external" href="http://tomcat.apache.org">http://tomcat.apache.org</a>, find the <strong>Tomcat 6.x</strong> link in the <strong>Downloads</strong> section, and save the <tt class="docutils literal"><span class="pre">tar.gz</span></tt> file listed under <strong>Binary Distributions / Core</strong>.  Back in your superuser shell, unpack this file as well by running <tt class="docutils literal"><span class="pre">tar</span> <span class="pre">xzvf</span> <span class="pre">/home/user/Download/apache-tomcat-a.b.c.tar.gz&gt;</span></tt> (Make sure to use the correct file name.)</p>
+<p>Set the owner of the extracted directory to be your user account: <tt class="docutils literal"><span class="pre">chown</span> <span class="pre">&lt;user&gt;</span> <span class="pre">apache-tomcat-a.b.c</span></tt>.</p>
+<p>Using your favorite text editor, open <tt class="docutils literal"><span class="pre">/opt/apache-tomcat-a.b.c/bin/catalina.sh</span></tt>.  Because we don&#8217;t want to worry about system-wide settings, we will make our changes in the top of this file. Find the line that starts with <tt class="docutils literal"><span class="pre">#</span> <span class="pre">OS</span> <span class="pre">specific</span> <span class="pre">support</span></tt> (around line 81), and insert the following right before, making sure to input the correct path to your JRE:</p>
+<div class="highlight-python"><div class="highlight"><pre>export PATH=&quot;/opt/jre1.6/bin:$PATH&quot;
+JAVA_OPTS=&quot;-server -Xmx256M&quot;
+</pre></div>
+</div>
+<p>The first line sets the the JRE just installed is the one that Tomcat uses.  The second line tells Tomcat to run with server settings and to use 256MB for heap memory. (It may be possible to run with less heap memory, but this is no recommended.)  On big installations you will want to use 1024MB or more. Note that this resource is shared among all servlets running in the container, so if you add more servlets later you may have to adjust this number.</p>
+</div>
+<div class="section" id="access-control">
+<h2>Access Control<a class="headerlink" href="#access-control" title="Permalink to this headline">¶</a></h2>
+<p>If you wish to use Tomcat&#8217;s web administration tool, you will need to create an account for the administrator.</p>
+<p>Open <tt class="docutils literal"><span class="pre">/opt/apache-tomcat-a.b.c/conf/tomcat-users.xml</span></tt> in a text editor. Immediately after the line containing <tt class="docutils literal"><span class="pre">&lt;tomcat-users&gt;</span></tt>, insert:</p>
+<div class="highlight-python"><div class="highlight"><pre>&lt;role rolename=&quot;manager&quot;/&gt;
+&lt;user username=&quot;tomcat&quot; password=&quot;s3cret&quot; roles=&quot;manager&quot;/&gt;
+</pre></div>
+</div>
+<p>Replace <tt class="docutils literal"><span class="pre">s3cret</span></tt> with your actual password. After making this change you will have to restart Tomcat.</p>
+</div>
+<div class="section" id="controlling-tomcat">
+<h2>Controlling Tomcat<a class="headerlink" href="#controlling-tomcat" title="Permalink to this headline">¶</a></h2>
+<p>Running as your own user, you should be able to start and stop Tomcat by using the scripts
+<tt class="docutils literal"><span class="pre">/opt/apache-tomcat-a.b.c/bin/startup.sh</span></tt> and <tt class="docutils literal"><span class="pre">/opt/apache-tomcat-a.b.c/bin/shutdown.sh</span></tt></p>
+<p>Verify Tomcat is running by navigating to to <a class="reference external" href="http://localhost:8080">http://localhost:8080</a> (the default location of the Tomcat web interface). If Tomcat is running correctly, you should see a page congratulating you on a successful installation.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Tomcat shutdown is asynchronous, meaning that Tomcat may still be running even though the script returns. Check by using <tt class="docutils literal"><span class="pre">ps</span> <span class="pre">-ef</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">tomcat</span></tt>, and if all else fails, use <tt class="docutils literal"><span class="pre">kill</span> <span class="pre">-9</span> <span class="pre">&lt;process</span> <span class="pre">id&gt;</span></tt> to terminate the Tomcat process.</p>
+</div>
+<p>Continue to <a class="reference internal" href="../geowebcache.html#installing-geowebcache"><em>Installing GeoWebCache</em></a></p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="index.html" title="previous chapter">Installing Java and Tomcat</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="windows.html" title="next chapter">Windows</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Linux</a><ul>
+<li><a class="reference internal" href="#java-runtime-environment">Java Runtime Environment</a></li>
+<li><a class="reference internal" href="#apache-tomcat">Apache Tomcat</a></li>
+<li><a class="reference internal" href="#access-control">Access Control</a></li>
+<li><a class="reference internal" href="#controlling-tomcat">Controlling Tomcat</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="index.html" title="previous chapter">Installing Java and Tomcat</a></li>
+            <li>Next: <a href="windows.html" title="next chapter">Windows</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../../_sources/installation/prerequisites/linux.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Jun 17, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

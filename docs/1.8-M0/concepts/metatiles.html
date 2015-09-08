@@ -1,0 +1,151 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Metatiles &mdash; GeoWebCache 1.8.x User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.8.x',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.8.x User Manual" href="../index.html" />
+      <link rel="up" title="Concepts" href="index.html" />
+      <link rel="next" title="Storage components" href="stores.html" />
+      <link rel="prev" title="Gridsets and Gridsubsets" href="gridsets.html" />
+</head>
+<body class="concepts/metatiles">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.8.x User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.8.x Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Concepts</a> &raquo;</li>
+  <li>Metatiles</li>
+</ul>
+        
+  <div class="section" id="metatiles">
+<span id="concepts-metatiles"></span><h1>Metatiles<a class="headerlink" href="#metatiles" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-s-a-metatile">
+<h2>What&#8217;s a metatile?<a class="headerlink" href="#what-s-a-metatile" title="Permalink to this headline">¶</a></h2>
+<p>A <strong>metatile</strong> is one larger tile combining several tiles.  GeoWebCache will request metatiles from the WMS and then slice the metatile into smaller tiles for caching.</p>
+<div class="figure align-center">
+<img alt="../_images/metatile.png" src="../_images/metatile.png" />
+<p class="caption"><em>The example above shows a 3x3 metatile, covering 9 regular tiles.</em></p>
+</div>
+<p>The default setup is a 3x3 metatile with 256 pixel square tiles, so GeoWebCache will make requests for 768 x 768 pixel metatiles.</p>
+</div>
+<div class="section" id="why-use-metatiles">
+<h2>Why use metatiles?<a class="headerlink" href="#why-use-metatiles" title="Permalink to this headline">¶</a></h2>
+<p>The most significant advantage of metatiling is to avoid duplicating the labeling of features that span more than one tile.  Road labeling is an example of this, but any line or polygon can exist at the edge of a tile boundary, and thus be labeled once on each tile.</p>
+<div class="figure align-center">
+<img alt="../_images/duplicate_labels.png" src="../_images/duplicate_labels.png" />
+<p class="caption"><em>An example showing duplicate labels on a tile boundary</em></p>
+</div>
+<p>Metatiling may also achieve better overall performance.  It is usually faster for the WMS backend to generate one large image rather than many small ones, since the WMS would only incur the overhead associated with one request.</p>
+</div>
+<div class="section" id="why-not-use-metatiles">
+<h2>Why not use metatiles?<a class="headerlink" href="#why-not-use-metatiles" title="Permalink to this headline">¶</a></h2>
+<p>The disadvantage of metatiling is that since the metatile is larger, it is slower to render than any individual tile would be.</p>
+<p>Memory consumption may also become an issue.  The amount of memory to compute a tile is proportional to the size of the metatile, the color depth of the tile, and other factors (such as the number of FeatureTypeStyle element in an SLD).  A single 3x3 metatile with 256 square pixel tiles with 32 bit (4 byte) color depth would require at least (256*256)*(3*3)*4 = 2359296 bytes = 2304 kB = 2.25 MB of memory to compute.</p>
+</div>
+<div class="section" id="preventing-double-metatiling">
+<h2>Preventing double-metatiling<a class="headerlink" href="#preventing-double-metatiling" title="Permalink to this headline">¶</a></h2>
+<p>Several backends also support a parameter to indicate that the client is tiling. If you are using metatiling in GeoWebCache, you should generally set this to False to prevent the backend from metatiling the metatiles. For examples, if you use 3x3 metatiling (768x768 pixels), and have tiled=true, the server may metatile these metatiles, resulting in a 2304x2304 canvas.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If being used as the backend, GeoServer will ignore the directive for requests that are not 256x256 pixels.</p>
+</div>
+</div>
+<div class="section" id="configuring-metatiling">
+<h2>Configuring Metatiling<a class="headerlink" href="#configuring-metatiling" title="Permalink to this headline">¶</a></h2>
+<p>Metatiling can be configured either on a per-layer basis, or for all layers in a capabilities document. The former is configured in <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt>, the latter in <tt class="file docutils literal"><span class="pre">geowebcache-core-context.xml</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can seed up to a certain zoom level at one metatile setting and then reduce metatiling, to ensure adequate response times where the map has not been seeded.</p>
+</div>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="gridsets.html" title="previous chapter">Gridsets and Gridsubsets</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="stores.html" title="next chapter">Storage components</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Metatiles</a><ul>
+<li><a class="reference internal" href="#what-s-a-metatile">What&#8217;s a metatile?</a></li>
+<li><a class="reference internal" href="#why-use-metatiles">Why use metatiles?</a></li>
+<li><a class="reference internal" href="#why-not-use-metatiles">Why not use metatiles?</a></li>
+<li><a class="reference internal" href="#preventing-double-metatiling">Preventing double-metatiling</a></li>
+<li><a class="reference internal" href="#configuring-metatiling">Configuring Metatiling</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="gridsets.html" title="previous chapter">Gridsets and Gridsubsets</a></li>
+            <li>Next: <a href="stores.html" title="next chapter">Storage components</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/concepts/metatiles.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on May 26, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

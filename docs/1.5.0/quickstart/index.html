@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Quickstart &mdash; GeoWebCache 1.5.0 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.5.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.5.0 User Manual" href="../index.html" />
+      <link rel="next" title="Concepts" href="../concepts/index.html" />
+      <link rel="prev" title="Upgrading from a pre 1.4 release" href="../installation/upgrading.html" />
+</head>
+<body class="quickstart/index">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.5.0 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.5.0 Home</a> &raquo;</li>
+  <li>Quickstart</li>
+</ul>
+        
+  <div class="section" id="quickstart">
+<span id="id1"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p>This section describes how to get started quickly with GeoWebCache without knowing much about the <a class="reference internal" href="../configuration/index.html#configuration"><em>Configuration</em></a>.</p>
+<p>All servers that conform to the <a class="reference external" href="http://www.opengeospatial.org/standards/wms">OGC Web Map Service specification</a> must publish what is known as a <strong>capabilities document</strong> (sometimes also known as a GetCapabilities document after the request used to fetch it). This is an XML file that describes every layer that is available to the user. GeoWebCache can use this information to configure itself automatically.</p>
+<div class="section" id="view-preconfigured-layers">
+<span id="quickstart-xml"></span><h2>View preconfigured layers<a class="headerlink" href="#view-preconfigured-layers" title="Permalink to this headline">¶</a></h2>
+<p>GeoWebCache comes preconfigured with three layers.  To view them, navigate to your GeoWebCache demo page at <tt class="docutils literal"><span class="pre">http://GEOWEBCACHE_URL/demo</span></tt> (often this is <tt class="docutils literal"><span class="pre">http://localhost:8080/geowebcache/demo</span></tt>).  Click on any of the links next to the <em class="guilabel">OpenLayers</em> column.</p>
+<p>These layers are all served from the WMS available at <tt class="docutils literal"><span class="pre">http://demo.opengeo.org/geoserver/</span></tt>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Layer Name (Title)</th>
+<th class="head">WMS layer(s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>img states</strong></td>
+<td>nurc:Img_Sample,topp:states</td>
+</tr>
+<tr class="row-odd"><td><strong>raster test layer</strong></td>
+<td>nurc:Img_Sample</td>
+</tr>
+<tr class="row-even"><td><strong>topp:states</strong></td>
+<td>topp:states</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This information is set in the <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt> file, which is typically available at <tt class="file docutils literal"><span class="pre">opt/apache-tomcat-6.0.29/webapps/geowebcache/WEB-INF/classes</span></tt> or <tt class="file docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\Apache</span> <span class="pre">Software</span> <span class="pre">Foundation\Tomcat</span> <span class="pre">6.0.29\webapps\geowebcache\WEB-INF\classes</span></tt>.  See the section on <a class="reference internal" href="../configuration/layers/index.html#configuration-layers"><em>Configuring Layers</em></a> for more information on customizing this file.</p>
+</div>
+</div>
+<div class="section" id="view-layers-from-a-wms">
+<span id="quickstart-wms"></span><h2>View layers from a WMS<a class="headerlink" href="#view-layers-from-a-wms" title="Permalink to this headline">¶</a></h2>
+<p>The file <tt class="file docutils literal"><span class="pre">geowebcache-core-context.xml</span></tt> is a configuration file that controls how the application is loaded. It is located inside the WEB-INF folder, typically <tt class="file docutils literal"><span class="pre">/opt/apache-tomcat-6.0.29/webapps/geowebcache/WEB-INF/</span></tt> or <tt class="file docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\Apache</span> <span class="pre">Software</span> <span class="pre">Foundation\Tomcat</span> <span class="pre">6.0.29\webapps\geowebcache\WEB-INF</span></tt> along with many other configuration files.</p>
+<ol class="arabic">
+<li><p class="first">Open <tt class="file docutils literal"><span class="pre">geowebcache-core-context.xml</span></tt> in a text editor.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If using Windows, it is recommended to use an enhanced text editor such as <a class="reference external" href="http://notepad-plus-plus.org/">Notepad++</a> or <a class="reference external" href="http://www.jedit.org">jEdit</a> instead of the standard Windows Notepad.</p>
+</div>
+</li>
+<li><p class="first">Find the block beginning with:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;gwcWMSConfig&quot;</span> <span class="na">class=</span><span class="s">&quot;org.geowebcache.config.GetCapabilitiesConfiguration&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</div>
+<p>On the second line you will see a value that contains a URL:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;constructor-arg</span> <span class="na">value=</span><span class="s">&quot;http://localhost:8282/geoserver/wms?request=getcapabilities&amp;amp;version=1.1.0&amp;amp;service=wms&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Replace the value with a URL pointing to a valid WMS capabilities document, such as:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;constructor-arg</span> <span class="na">value=</span><span class="s">&quot;http://demo.opengeo.org/geoserver/ows?service=WMS&amp;amp;request=GetCapabilities&amp;amp;version=1.1.0&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ampersand sign, <tt class="docutils literal"><span class="pre">&amp;</span></tt> has to be written out as <tt class="docutils literal"><span class="pre">&amp;amp;</span></tt> in XML files. Also, make sure to omit the line breaks.</p>
+</div>
+</li>
+<li><p class="first">Since GeoWebCache is not configured to look to a WMS by default, we need to enable this.  Find the block beginning with:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;gwcTLDispatcher&quot;</span> <span class="na">class=</span><span class="s">&quot;org.geowebcache.layer.TileLayerDispatcher&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Inside the <tt class="docutils literal"><span class="pre">constructor-arg</span></tt> <tt class="docutils literal"><span class="pre">&lt;list&gt;</span></tt> locate the line that says:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- ref bean=&quot;gwcWMSConfig&quot; / --&gt;</span>
+</pre></div>
+</div>
+<p>and uncomment the line</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">&quot;gwcWMSConfig&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The line immediately underneath this, <tt class="docutils literal"><span class="pre">&lt;ref</span> <span class="pre">bean=&quot;gwcXmlConfig&quot;</span> <span class="pre">/&gt;</span></tt>, is what loads the three layers as mentioned in the <a class="reference internal" href="#quickstart-xml"><em>View preconfigured layers</em></a> section.  Commenting this line out will remove those layers from the layer list.</p>
+</div>
+</li>
+<li><p class="first">Save the file and reload the servlet using Tomcat&#8217;s Manager, or by restarting the servlet container.</p>
+</li>
+<li><p class="first">Navigate to or reload your GeoWebCache demo page.  You should see the list of layers as advertised in the WMS capabilities document.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="special-cases">
+<h2>Special cases<a class="headerlink" href="#special-cases" title="Permalink to this headline">¶</a></h2>
+<p>The following are some extra parameters may need or want to add to get your WMS layers loading properly in GeoWebCache.</p>
+<div class="section" id="map-vendor-parameters">
+<h3>Map vendor parameters<a class="headerlink" href="#map-vendor-parameters" title="Permalink to this headline">¶</a></h3>
+<p>If your WMS server requires additional vendor parameters to be passed with every request, such as MapServer&#8217;s <tt class="docutils literal"><span class="pre">map</span></tt> argument, set this in the fifth <tt class="docutils literal"><span class="pre">constructor-arg</span></tt> value.  Replace:</p>
+<blockquote>
+<div><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;constructor-arg</span> <span class="na">value=</span><span class="s">&quot;&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>with:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;constructor-arg</span> <span class="na">value=</span><span class="s">&quot;map=name&amp;amp;otherkey=othervalue&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="other-image-formats">
+<h3>Other image formats<a class="headerlink" href="#other-image-formats" title="Permalink to this headline">¶</a></h3>
+<p>To get 24 bit PNGs from MapServer or ArcIMS (<tt class="docutils literal"><span class="pre">image/png;</span> <span class="pre">mode=24bit</span></tt> and <tt class="docutils literal"><span class="pre">image/png24</span></tt> respectively), or any other image format, you will need to specify those as output formats.  This is set in the fourth <tt class="docutils literal"><span class="pre">constructor-arg</span></tt> value.  Replace:</p>
+<blockquote>
+<div><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;constructor-arg</span> <span class="na">value=</span><span class="s">&quot;image/png,image/jpeg&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>with</p>
+<blockquote>
+<div><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;constructor-arg</span> <span class="na">value=</span><span class="s">&quot;image/png; mode=24bit,image/png24,image/jpeg&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Other MIME types can be specified here as well.</p>
+</div>
+<div class="section" id="metatile-factor">
+<h3>Metatile factor<a class="headerlink" href="#metatile-factor" title="Permalink to this headline">¶</a></h3>
+<p>It is possible to change the metatiling factor by changing the third <tt class="docutils literal"><span class="pre">constructor-arg</span></tt> value.  This will affect all layers derived from this document.  See the <a class="reference internal" href="../concepts/metatiles.html#concepts-metatiles"><em>Metatiles</em></a> section for more information.</p>
+</div>
+<div class="section" id="multiple-capabilities-documents">
+<h3>Multiple capabilities documents<a class="headerlink" href="#multiple-capabilities-documents" title="Permalink to this headline">¶</a></h3>
+<p>GeoWebCache can be configured from multiple capabilities documents.  To do this, you can duplicate the <tt class="docutils literal"><span class="pre">gwcWMSConfig</span></tt> bean, change the id, and add it to the list inside the <tt class="docutils literal"><span class="pre">gwcTLDispatcher</span></tt> bean, for example:</p>
+<blockquote>
+<div><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;gwcTLDispatcher&quot;</span> <span class="na">class=</span><span class="s">&quot;org.geowebcache.layer.TileLayerDispatcher&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;constructor-arg</span> <span class="na">ref=</span><span class="s">&quot;gwcGridSetBroker&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;constructor-arg&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">&quot;gwcWMSConfig&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">&quot;gwcWMSConfig2&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">&quot;gwcWMSConfig3&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/constructor-arg&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="additional-information">
+<h2>Additional information<a class="headerlink" href="#additional-information" title="Permalink to this headline">¶</a></h2>
+<p>All layers known to GeoWebCache should be available on the demo page, along with automatically configured OpenLayers clients. The KML demos use the same sets of tiles as the OpenLayers EPSG:4326 demo.</p>
+<p>According to the WMS standard, the capabilities document is only guaranteed to contain the WGS84 (lat/lon) bounds for a layer, hence EPSG:4326, though in rare cases the WMS server will not be able to provide responses for this projection. If the capabilities document contains bounding boxes for additional projections, often the native reference system for the data, then these will be included as well. Finally, GeoWebCache will convert the EPSG:4326 bounding box to spherical mercator (EPSG:900913, now officially known as EPSG:3857).  That said, the WMS server isn&#8217;t guaranteed to be able to provide a successful response to these requests.</p>
+<p>If you need to support other projections, you can do so by defining grid sets manually and adding them to these layers. The same is true for supporting specific resolutions, output formats or tile sizes.  See the <a class="reference internal" href="../configuration/index.html#configuration"><em>Configuration</em></a> section for more information.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="../installation/upgrading.html" title="previous chapter">Upgrading from a pre 1.4 release</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="../concepts/index.html" title="next chapter">Concepts</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Quickstart</a><ul>
+<li><a class="reference internal" href="#view-preconfigured-layers">View preconfigured layers</a></li>
+<li><a class="reference internal" href="#view-layers-from-a-wms">View layers from a WMS</a></li>
+<li><a class="reference internal" href="#special-cases">Special cases</a><ul>
+<li><a class="reference internal" href="#map-vendor-parameters">Map vendor parameters</a></li>
+<li><a class="reference internal" href="#other-image-formats">Other image formats</a></li>
+<li><a class="reference internal" href="#metatile-factor">Metatile factor</a></li>
+<li><a class="reference internal" href="#multiple-capabilities-documents">Multiple capabilities documents</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#additional-information">Additional information</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="../installation/upgrading.html" title="previous chapter">Upgrading from a pre 1.4 release</a></li>
+            <li>Next: <a href="../concepts/index.html" title="next chapter">Concepts</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/quickstart/index.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Sep 18, 2013.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

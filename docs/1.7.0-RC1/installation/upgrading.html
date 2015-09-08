@@ -1,0 +1,110 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Upgrading from a pre 1.4 release &mdash; GeoWebCache 1.7.0-RC1 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.7.0-RC1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.7.0-RC1 User Manual" href="../index.html" />
+      <link rel="up" title="Installation" href="index.html" />
+      <link rel="next" title="Quickstart" href="../quickstart/index.html" />
+      <link rel="prev" title="Installing GeoWebCache" href="geowebcache.html" />
+</head>
+<body class="installation/upgrading">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.7.0-RC1 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.7.0-RC1 Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Installation</a> &raquo;</li>
+  <li>Upgrading from a pre 1.4 release</li>
+</ul>
+        
+  <div class="section" id="upgrading-from-a-pre-1-4-release">
+<span id="upgrading"></span><h1>Upgrading from a pre 1.4 release<a class="headerlink" href="#upgrading-from-a-pre-1-4-release" title="Permalink to this headline">¶</a></h1>
+<p>Starting with GeoWebCache 1.4.0 the metastore support has been removed and all its functionality has been moved to the file blob store, including support for tile expiration based on creatin date and request parameter handling.</p>
+<p>Depending on the features used in the previous GeoWebCache the migration will take three different paths:</p>
+<blockquote>
+<div><ul class="simple">
+<li>if the GeoWebCache used no metastore nor disk quota the migration will be completely transparent and no changes will be made to the contents of the on disk cache.</li>
+<li>if the disk quota mechanism was used the disk quota database will be removed (since it&#8217;s internal structure changed) and automatically re-populated by a background thread while GWC is  running</li>
+<li>if the metastore was in use the informations contained in it will be automatically migrated on the tiles and cache paths on the first startup, after which the metastore database will be deleted</li>
+</ul>
+</div></blockquote>
+<p>The metastore migration by default will migrate the parameter ids in the new <a class="reference external" href="http://en.wikipedia.org/wiki/SHA-1">SHA-1</a> form, however by default the migration of tile creation time is turned off by default in order to avoid waiting hours on existing caches with billions of tiles.
+In case the user desires to perform the tile date migration fully the JVM will have to be started with an extra system variable, <tt class="docutils literal"><span class="pre">-DMIGRATE_CREATION_DATES=true</span></tt>.</p>
+<p>All of the above will happen at the first time a GeoWebCache 1.4.x runs on a 1.3.x style cache directory. Once the change is over it won&#8217;t be possible anymore to use said data directory against a 1.3.x series if parameters were used (in case no layer parameters were in use a downgrade is still possible by manually removing the disk quota store folder).</p>
+<p><tt class="docutils literal"><span class="pre">Configuration</span></tt> beans need no longer be passed to the <tt class="docutils literal"><span class="pre">Dispatcher</span></tt>.  Simply declare the beans in <tt class="docutils literal"><span class="pre">geowebcache-core-context.xml</span></tt>, and GWC will use them up automatically.</p>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="geowebcache.html" title="previous chapter">Installing GeoWebCache</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="../quickstart/index.html" title="next chapter">Quickstart</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="geowebcache.html" title="previous chapter">Installing GeoWebCache</a></li>
+            <li>Next: <a href="../quickstart/index.html" title="next chapter">Quickstart</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/installation/upgrading.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Feb 20, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

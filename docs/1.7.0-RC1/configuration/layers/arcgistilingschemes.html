@@ -1,0 +1,192 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Serving Layers From Pre-Cached ArcGIS Tiling Schemes &mdash; GeoWebCache 1.7.0-RC1 User Manual</title>
+  <link rel="stylesheet" href="../../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.7.0-RC1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../../searchindex.js"></script>
+  <link rel="shortcut icon" href="../../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.7.0-RC1 User Manual" href="../../index.html" />
+      <link rel="up" title="Configuring Layers" href="index.html" />
+      <link rel="next" title="Using a Static Capabilities Document" href="staticcaps.html" />
+      <link rel="prev" title="Request Filter" href="requestfilters.html" />
+</head>
+<body class="configuration/layers/arcgistilingschemes">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../../index.html">GeoWebCache 1.7.0-RC1 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../../index.html">GeoWebCache 1.7.0-RC1 Home</a> &raquo;</li>
+  <li><a href="../index.html" accesskey="U">Configuration</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Configuring Layers</a> &raquo;</li>
+  <li>Serving Layers From Pre-Cached ArcGIS Tiling Schemes</li>
+</ul>
+        
+  <div class="section" id="serving-layers-from-pre-cached-arcgis-tiling-schemes">
+<span id="configuration-layers-arcgistilingschemes"></span><h1>Serving Layers From Pre-Cached ArcGIS Tiling Schemes<a class="headerlink" href="#serving-layers-from-pre-cached-arcgis-tiling-schemes" title="Permalink to this headline">¶</a></h1>
+<p>GeoWebCache offers the possibility of serving cached tiles created by ArcGIS Server 9.2, 9.3 and 10.0, as long as the ArcGIS cache is in the so called &#8220;exploded format&#8221;, and not in the &#8220;compact format&#8221; introduced in ArcGIS Server 10. This is so because the compact storage format uses a legacy file format to store multiple tiles inside a single file, but it&#8217;s structure is not published by ESRI.</p>
+<div class="section" id="features-and-limitations">
+<h2>Features and Limitations<a class="headerlink" href="#features-and-limitations" title="Permalink to this headline">¶</a></h2>
+<p>GeoWebCache can publish pre-generated caches in ArcGIS exploded format, it cannot seed or truncate these layers. So if you have a set of cached Layers created with ArcGIS Server, you can publish them using GeoWebCache as WMS-C Layers without needing to have ArcGIS Server running at all.</p>
+<p>Also, GeoWebcache supports only <cite>fused</cite> ArcGIS caches. That is, caches that contain a single tile set for all the layers in the cached ArcGIS Map.</p>
+</div>
+<div class="section" id="arcgis-tiling-scheme">
+<h2>ArcGIS Tiling Scheme<a class="headerlink" href="#arcgis-tiling-scheme" title="Permalink to this headline">¶</a></h2>
+<p>The file structure of such caches is as follows:</p>
+<div class="figure align-center">
+<img alt="../../_images/arcgis_tiling_scheme_structure.png" src="../../_images/arcgis_tiling_scheme_structure.png" />
+</div>
+<p>In this example, the <tt class="file docutils literal"><span class="pre">arcgiscache</span></tt> folder is the root of the ArcGIS Server cache directory. It contains two cached layers: <tt class="file docutils literal"><span class="pre">naturalearth</span></tt> and <tt class="file docutils literal"><span class="pre">World_Reference_Overlay</span></tt>. Each of them contains a <tt class="file docutils literal"><span class="pre">Layers</span></tt> folder which in turn has two files: <tt class="file docutils literal"><span class="pre">conf.xml</span></tt> and <tt class="file docutils literal"><span class="pre">conf.cdi</span></tt>, and an <tt class="file docutils literal"><span class="pre">_allLayers</span></tt> folder.</p>
+<p>In ArcGIS terminology, each of these cached layers constitutes &#8220;fused caches&#8221;, since there&#8217;s a single <tt class="file docutils literal"><span class="pre">_allLayers</span></tt> folder holding the tile files for all the overlaid layers composing that &#8220;Map&#8221;.</p>
+<p>The <tt class="file docutils literal"><span class="pre">conf.xml</span></tt> XML file contains the &#8216;ArcGIS Tiling Scheme&#8217; definition, containing information about the Layer&#8217;s Coordinate Reference System, the &#8216;tileOrigin&#8217;, and tile dimensions, the tiles image format, and the list of zoom levels defined by a pair of equivalent resolutions and scale denominators, among other information.</p>
+<p>The <tt class="file docutils literal"><span class="pre">conf.cdi</span></tt> file is an accompanying XML file that defines the actual bounding box of the Layer cached by this tile set.</p>
+<p>The structure of the &#8220;conf.cdi&#8221; file is as follows:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;EnvelopeN&gt;</span>
+  <span class="nt">&lt;XMin&gt;</span>-180<span class="nt">&lt;/XMin&gt;</span>
+  <span class="nt">&lt;YMin&gt;</span>-90<span class="nt">&lt;/YMin&gt;</span>
+  <span class="nt">&lt;XMax&gt;</span>180<span class="nt">&lt;/XMax&gt;</span>
+  <span class="nt">&lt;YMax&gt;</span>90<span class="nt">&lt;/YMax&gt;</span>
+<span class="nt">&lt;/EnvelopeN&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">GeoWebCache will need those two files to automatically create a GridSet and GridSubset for this Layer. If your cache doesn&#8217;t come with a <tt class="file docutils literal"><span class="pre">conf.cdi</span></tt> file (ArcGIS Server versions prior to 10.0) you&#8217;ll need to create one by hand and place it next to <tt class="file docutils literal"><span class="pre">conf.xml</span></tt>, so that GeoWebcache can map that to its internal representation of the gridded set of tiles.</p>
+</div>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>An &#8216;arcgisLayer&#8217; element needs to be created in <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt> under the &#8216;layers&#8217; section. &#8216;wmsLayer&#8217; definitions and &#8216;arcgisLayer&#8217; definitions can be intermixed.</p>
+<p>This is an example <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt> fragment showing how to set up such a cached Layer:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;gwcConfiguration&gt;</span>
+  <span class="nt">&lt;gridSets&gt;</span>
+  <span class="nt">&lt;/gridSets&gt;</span>
+  <span class="nt">&lt;layers&gt;</span>
+    <span class="nt">&lt;wmsLayer&gt;&lt;/wmsLayer&gt;</span>
+
+    <span class="nt">&lt;arcgisLayer&gt;</span>
+      <span class="nt">&lt;name&gt;</span>naturalearth<span class="nt">&lt;/name&gt;</span>
+      <span class="nt">&lt;tilingScheme&gt;</span>C:\\arcgiscache\\naturalearth\\Layers\\conf.xml<span class="nt">&lt;/tilingScheme&gt;</span>
+    <span class="nt">&lt;/arcgisLayer&gt;</span>
+  <span class="nt">&lt;/layers&gt;</span>
+<span class="nt">&lt;/gwcConfiguration&gt;</span>
+</pre></div>
+</div>
+<p>The &#8216;name&#8217; element is the Layer name GeoWebcache will publish the ArcGIS cache for that layer with.
+The &#8216;tilingScheme&#8217; element expects the full path to the cache&#8217;s <tt class="file docutils literal"><span class="pre">conf.xml</span></tt> file.</p>
+</div>
+<div class="section" id="alternative-cache-directory">
+<h2>Alternative cache directory<a class="headerlink" href="#alternative-cache-directory" title="Permalink to this headline">¶</a></h2>
+<p>It is also possible to get rid of the standard tiling scheme layout and separate out the location of the <cite>conf.xml</cite> file and the directory that actually holds the tiles, by using the <tt class="docutils literal"><span class="pre">tileCachePath</span></tt> property:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;arcgisLayer&gt;</span>
+  <span class="nt">&lt;name&gt;</span>naturalearth<span class="nt">&lt;/name&gt;</span>
+  <span class="nt">&lt;tilingScheme&gt;</span>C:\\arcgiscache\\naturalearth\\Layers\\conf.xml<span class="nt">&lt;/tilingScheme&gt;</span>
+  <span class="nt">&lt;tileCachePath&gt;</span>D:\\arcgistiles\\naturalearth\\<span class="nt">&lt;/tileCachePath&gt;</span>
+<span class="nt">&lt;/arcgisLayer&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="openlayers-configuration">
+<h2>OpenLayers Configuration<a class="headerlink" href="#openlayers-configuration" title="Permalink to this headline">¶</a></h2>
+<p>One particularity of ArcGIS Tiling Schemes is that they define an explicit cache tile origin as an X/Y coordinate in the cache&#8217;s Coordinate Refernce System, that is located at the top left of the tiling scheme valid coordinate range. Since both GeoWebCache and OpenLayers by default compute tile bounding boxes based on the bottom left GridSet envelope corner, it is necessary to instruct OpenLayers to use an explicit &#8216;tileOrigin&#8217; for each Layer served off an ArcGIS Tiling Scheme.</p>
+<p>The GeoWebCache demo pages for this kind of Layers do that automatically.</p>
+<p>To set up an OpenLayers WMS layer that access an ArcGIS cache through the GeoWebCache WMS interface, use the Layer&#8217;s tileOrigin property as in the following example:</p>
+<div class="highlight-python"><pre>var demolayer = new OpenLayers.Layer.WMS("naturalearth","../service/wms",
+  {layers: 'naturalearth', format: 'image/png' },
+  { tileSize: new OpenLayers.Size(256,256),
+    tileOrigin: new OpenLayers.LonLat(-180.0, 90.0)});
+map.addLayer(demolayer);</pre>
+</div>
+<p>And make sure the &#8216;tileOrigin&#8217; property matches the tile origin defined in <tt class="file docutils literal"><span class="pre">conf.xml</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The OpenLayers tileOrigin property is new and available since revision #11033 in svn. This new functionality will be available in OpenLayers 2.11, which at the time of writing is not yet released. The OpenLayers version that comes with GeoWebCache already contains the needed patch.</p>
+</div>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="requestfilters.html" title="previous chapter">Request Filter</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="staticcaps.html" title="next chapter">Using a Static Capabilities Document</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Serving Layers From Pre-Cached ArcGIS Tiling Schemes</a><ul>
+<li><a class="reference internal" href="#features-and-limitations">Features and Limitations</a></li>
+<li><a class="reference internal" href="#arcgis-tiling-scheme">ArcGIS Tiling Scheme</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#alternative-cache-directory">Alternative cache directory</a></li>
+<li><a class="reference internal" href="#openlayers-configuration">OpenLayers Configuration</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="requestfilters.html" title="previous chapter">Request Filter</a></li>
+            <li>Next: <a href="staticcaps.html" title="next chapter">Using a Static Capabilities Document</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../../_sources/configuration/layers/arcgistilingschemes.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Feb 20, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

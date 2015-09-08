@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>How to configure layers &mdash; GeoWebCache 1.8-beta User Manual</title>
+  <link rel="stylesheet" href="../../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.8-beta',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../../searchindex.js"></script>
+  <link rel="shortcut icon" href="../../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.8-beta User Manual" href="../../index.html" />
+      <link rel="up" title="Configuring Layers" href="index.html" />
+      <link rel="next" title="Custom projections" href="projections.html" />
+      <link rel="prev" title="Configuring Layers" href="index.html" />
+</head>
+<body class="configuration/layers/howto">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../../index.html">GeoWebCache 1.8-beta User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../../index.html">GeoWebCache 1.8-beta Home</a> &raquo;</li>
+  <li><a href="../index.html" accesskey="U">Configuration</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Configuring Layers</a> &raquo;</li>
+  <li>How to configure layers</li>
+</ul>
+        
+  <div class="section" id="how-to-configure-layers">
+<span id="configuration-layers-howto"></span><h1>How to configure layers<a class="headerlink" href="#how-to-configure-layers" title="Permalink to this headline">¶</a></h1>
+<p>The main configuration file for GeoWebCache is <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt>. By default, it is located in the same directory as the <a class="reference internal" href="../storage.html#configuration-storage"><em>cache</em></a>. If the configuration file does not exist, GeoWebCache will copy the default configuration file from <tt class="file docutils literal"><span class="pre">WEB-INF/classes/geowebcache.xml</span></tt> to the cache directory.</p>
+<p>Unless specified, all configuration changes in this section are done editing the file <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt>.</p>
+<div class="section" id="changing-the-location-of-geowebcache-xml">
+<h2>Changing the location of geowebcache.xml<a class="headerlink" href="#changing-the-location-of-geowebcache-xml" title="Permalink to this headline">¶</a></h2>
+<p>The location of the configuration file is set in <tt class="file docutils literal"><span class="pre">WEB-INF/geowebcache-core-context.xml</span></tt>.  If you wish to set a different location for the configuration file, open <tt class="file docutils literal"><span class="pre">geowebcache-core-context.xml</span></tt> and look for the <tt class="docutils literal"><span class="pre">&lt;bean&gt;</span></tt> tag referencing <tt class="docutils literal"><span class="pre">gwcXmlConfig</span></tt>:</p>
+<p>Uncomment the bottom <tt class="docutils literal"><span class="pre">&lt;constructor-arg</span> <span class="pre">value=</span> <span class="pre">...&gt;</span></tt> tag and specify the location where you would like to place <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt>.</p>
+</div>
+<div class="section" id="tips-for-editing-xml">
+<h2>Tips for editing XML<a class="headerlink" href="#tips-for-editing-xml" title="Permalink to this headline">¶</a></h2>
+<p>Editing the configuration file by hand can be tricky, since the smallest typo may cause GeoWebCache to stop functioning.  Furthermore, <strong>The order of the XML elements is crucial!</strong></p>
+<p>It is recommended to use a special XML editing tool or at the very least a text editor with syntax highlighting.  Furthermore, using an editor with XML schema validation will tell you right away if you are missing a tag or have placed elements out of order.</p>
+<p>Two recommended free editors, both of which have support for XML validation, are:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.jedit.org/">jEdit</a> (cross platform)</li>
+<li><a class="reference external" href="http://notepad-plus-plus.org/">Notepad++</a> (Windows only)</li>
+</ul>
+<p>It is also possible to validate an XML document outside of a text editor environment.</p>
+<ul class="simple">
+<li>The <a class="reference external" href="http://validator.w3.org/">W3C Markup Validation Service</a> allows you to upload an XML file for validation.  Another such service is the <a class="reference external" href="http://www.validome.org/xml/">Validome XML Validator</a>.</li>
+<li><tt class="docutils literal"><span class="pre">xmllint</span></tt> application (UNIX/Linux only)</li>
+</ul>
+<p>GeoWebCache validates the XML file against the schema during startup and will report errors, so be sure to check the servlet container logs if the layers do not behave as expected.</p>
+</div>
+<div class="section" id="schema">
+<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this headline">¶</a></h2>
+<p>All configuration options and parameters are ultimately located in the XML schema.  While the documentation you are reading now is designed to translate and interpret the schema to make the GeoWebCache configuration simpler, expert users can look at the schema to determine all details, including variable types, ordering of elements and much more.</p>
+<ul class="simple">
+<li>GeoWebCache schema - <tt class="docutils literal"><span class="pre">http://geowebcache.org/schema/&lt;version&gt;/geowebcache.xsd</span></tt></li>
+<li>GeoWebCache schema docs - <tt class="docutils literal"><span class="pre">http://geowebcache.org/schema/docs/&lt;version&gt;/</span></tt></li>
+</ul>
+<p>Make sure to replace the &lt;version&gt; with the current version number.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="index.html" title="previous chapter">Configuring Layers</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="projections.html" title="next chapter">Custom projections</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">How to configure layers</a><ul>
+<li><a class="reference internal" href="#changing-the-location-of-geowebcache-xml">Changing the location of geowebcache.xml</a></li>
+<li><a class="reference internal" href="#tips-for-editing-xml">Tips for editing XML</a></li>
+<li><a class="reference internal" href="#schema">Schema</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="index.html" title="previous chapter">Configuring Layers</a></li>
+            <li>Next: <a href="projections.html" title="next chapter">Custom projections</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../../_sources/configuration/layers/howto.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Aug 28, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

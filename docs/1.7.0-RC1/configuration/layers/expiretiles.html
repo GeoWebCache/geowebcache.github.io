@@ -1,0 +1,145 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Tile expiration &mdash; GeoWebCache 1.7.0-RC1 User Manual</title>
+  <link rel="stylesheet" href="../../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.7.0-RC1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../../searchindex.js"></script>
+  <link rel="shortcut icon" href="../../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.7.0-RC1 User Manual" href="../../index.html" />
+      <link rel="up" title="Configuring Layers" href="index.html" />
+      <link rel="next" title="Gridsets and Gridsubsets" href="gridsets.html" />
+      <link rel="prev" title="Expiring tiles with GeoRSS" href="georss.html" />
+</head>
+<body class="configuration/layers/expiretiles">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../../index.html">GeoWebCache 1.7.0-RC1 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../../index.html">GeoWebCache 1.7.0-RC1 Home</a> &raquo;</li>
+  <li><a href="../index.html" accesskey="U">Configuration</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Configuring Layers</a> &raquo;</li>
+  <li>Tile expiration</li>
+</ul>
+        
+  <div class="section" id="tile-expiration">
+<span id="configuration-layers-expiretiles"></span><h1>Tile expiration<a class="headerlink" href="#tile-expiration" title="Permalink to this headline">¶</a></h1>
+<p>GeoWebCache allows controlling the expiration of tiles both at server and client level. Modifications must be made in the general configuration file, <tt class="docutils literal"><span class="pre">geowebcache.xml</span></tt> as explained below:</p>
+<div class="section" id="server-tile-expiration">
+<h2>Server tile expiration<a class="headerlink" href="#server-tile-expiration" title="Permalink to this headline">¶</a></h2>
+<p>The tag <tt class="docutils literal"><span class="pre">&lt;expireCacheList&gt;</span></tt> controls how old a tile may be before it is fetched again from the server. The default value is <tt class="docutils literal"><span class="pre">0</span></tt>, which means never, otherwise it must be specified in seconds.</p>
+<p>Attributes <tt class="docutils literal"><span class="pre">minZoom</span></tt> and <tt class="docutils literal"><span class="pre">expiration</span></tt> of the element <tt class="docutils literal"><span class="pre">&lt;expirationRule&gt;</span></tt> can be edited to define a list of expiration rules, so that cache expiration can be controlled per layer and per zoom level.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;expireCacheList&gt;</span>
+  <span class="nt">&lt;expirationRule</span> <span class="na">minZoom=</span><span class="s">&quot;0&quot;</span>  <span class="na">expiration=</span><span class="s">&quot;14400&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;expirationRule</span> <span class="na">minZoom=</span><span class="s">&quot;10&quot;</span> <span class="na">expiration=</span><span class="s">&quot;7200&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/expireCacheList&gt;</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">minZoom</span></tt></dt>
+<dd>First zoom level. The list should always start with <tt class="docutils literal"><span class="pre">0</span></tt> and be monotonically increasing.</dd>
+<dt><tt class="docutils literal"><span class="pre">expiration</span></tt></dt>
+<dd>Defines the number of seconds a tile remains valid on the server. Subsequent requests will result in a new tile being fetched. The default is to cache forever. Special expiration values are <tt class="docutils literal"><span class="pre">-1</span></tt> to disable caching and <tt class="docutils literal"><span class="pre">-2</span></tt> to never expire.</dd>
+</dl>
+</div>
+<div class="section" id="client-tile-expiration">
+<h2>Client tile expiration<a class="headerlink" href="#client-tile-expiration" title="Permalink to this headline">¶</a></h2>
+<p>The tag <tt class="docutils literal"><span class="pre">&lt;expireClientsList&gt;</span></tt> controls the number of seconds that a client should cache a tile it has received from GeoWebCache. The default is to use the same expiration time as provided by the WMS server. If this value is not provided, 3600 seconds (one hour) is used.</p>
+<p>Attributes <tt class="docutils literal"><span class="pre">minZoom</span></tt> and <tt class="docutils literal"><span class="pre">expiration</span></tt> of the element <tt class="docutils literal"><span class="pre">&lt;expirationRule&gt;</span></tt> can be edited to define a list of expiration rules.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;expireClientsList&gt;</span>
+  <span class="nt">&lt;expirationRule</span> <span class="na">minZoom=</span><span class="s">&quot;0&quot;</span> <span class="na">expiration=</span><span class="s">&quot;7200&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;expirationRule</span> <span class="na">minZoom=</span><span class="s">&quot;10&quot;</span> <span class="na">expiration=</span><span class="s">&quot;600&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/expireClientsList&gt;</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">minZoom</span></tt></dt>
+<dd>This list must start with <tt class="docutils literal"><span class="pre">minZoom=&quot;0&quot;</span></tt> and be monotonically increasing.</dd>
+<dt><tt class="docutils literal"><span class="pre">expiration</span></tt></dt>
+<dd>Can either be a value in number of seconds or <tt class="docutils literal"><span class="pre">0</span></tt> to disable the header. A special value of <tt class="docutils literal"><span class="pre">-1</span></tt> may be used to set &#8220;no-cache&#8221; headers. By default the expiration header from the WMS backend is used. If it is not set or not available (for example, when no request has been forwarded to backend since startup) then the value is set to <tt class="docutils literal"><span class="pre">3600</span></tt> seconds.</dd>
+</dl>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="georss.html" title="previous chapter">Expiring tiles with GeoRSS</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="gridsets.html" title="next chapter">Gridsets and Gridsubsets</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Tile expiration</a><ul>
+<li><a class="reference internal" href="#server-tile-expiration">Server tile expiration</a></li>
+<li><a class="reference internal" href="#client-tile-expiration">Client tile expiration</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="georss.html" title="previous chapter">Expiring tiles with GeoRSS</a></li>
+            <li>Next: <a href="gridsets.html" title="next chapter">Gridsets and Gridsubsets</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../../_sources/configuration/layers/expiretiles.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Feb 20, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

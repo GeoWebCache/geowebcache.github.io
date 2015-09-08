@@ -1,0 +1,141 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Status Page &mdash; GeoWebCache 1.6.0 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.6.0 User Manual" href="../index.html" />
+      <link rel="up" title="Web Interface" href="index.html" />
+      <link rel="next" title="Demo Page" href="demo.html" />
+      <link rel="prev" title="Web Interface" href="index.html" />
+</head>
+<body class="webinterface/status">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.6.0 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.6.0 Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Web Interface</a> &raquo;</li>
+  <li>Status Page</li>
+</ul>
+        
+  <div class="section" id="status-page">
+<span id="webinterface-status"></span><h1>Status Page<a class="headerlink" href="#status-page" title="Permalink to this headline">¶</a></h1>
+<p>The Status page is the main page of the GeoWebCache web interface.  It as accessible at <tt class="docutils literal"><span class="pre">http://&lt;GEOWEBCACHE_URL&gt;</span></tt>.  For example, if geowebcache is running in Tomcat on port 8080, the URL would be <tt class="docutils literal"><span class="pre">http://localhost:8080/geowebcache</span></tt>.</p>
+<p>This page also provides a link to the <a class="reference internal" href="demo.html#webinterface-demo"><em>Demo Page</em></a>.</p>
+<div class="section" id="capabilities-documents">
+<h2>Capabilities documents<a class="headerlink" href="#capabilities-documents" title="Permalink to this headline">¶</a></h2>
+<p>GeoWebCache operates as a WMS 1.1.1, WMTS 1.0.0, and a TMS 1.0.0 server, and thus publishes capabilities documents for all these services.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Service</th>
+<th class="head">URL</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>WMS 1.1.1</td>
+<td><tt class="docutils literal"><span class="pre">http://&lt;GEOWEBCACHE_URL&gt;/service/wms?SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=getcapabilities&amp;TILED=true</span></tt></td>
+</tr>
+<tr class="row-odd"><td>WMTS 1.0.0</td>
+<td><tt class="docutils literal"><span class="pre">http://&lt;GEOWEBCACHE_URL&gt;/service/wmts?REQUEST=getcapabilities</span></tt></td>
+</tr>
+<tr class="row-even"><td>TMS 1.0.0</td>
+<td><tt class="docutils literal"><span class="pre">http://&lt;GEOWEBCACHE_URL&gt;/service/tms/1.0.0</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="runtime-statistics">
+<h2>Runtime statistics<a class="headerlink" href="#runtime-statistics" title="Permalink to this headline">¶</a></h2>
+<p>The Status page displays basic runtime statistics including: uptime; how many requests have been made; total and peak throughput and statitics over intervals of 3, 15, and 60 seconds.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="index.html" title="previous chapter">Web Interface</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="demo.html" title="next chapter">Demo Page</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Status Page</a><ul>
+<li><a class="reference internal" href="#capabilities-documents">Capabilities documents</a></li>
+<li><a class="reference internal" href="#runtime-statistics">Runtime statistics</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="index.html" title="previous chapter">Web Interface</a></li>
+            <li>Next: <a href="demo.html" title="next chapter">Demo Page</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/webinterface/status.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Sep 23, 2014.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

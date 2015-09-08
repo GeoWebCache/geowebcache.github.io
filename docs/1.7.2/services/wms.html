@@ -1,0 +1,140 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>WMS - Web Map Service &mdash; GeoWebCache 1.7.2 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.7.2',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.7.2 User Manual" href="../index.html" />
+      <link rel="up" title="Services" href="index.html" />
+      <link rel="next" title="WMTS - Web Map Tiling Service" href="wmts.html" />
+      <link rel="prev" title="Services" href="index.html" />
+</head>
+<body class="services/wms">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.7.2 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.7.2 Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Services</a> &raquo;</li>
+  <li>WMS - Web Map Service</li>
+</ul>
+        
+  <div class="section" id="wms-web-map-service">
+<span id="wms"></span><h1>WMS - Web Map Service<a class="headerlink" href="#wms-web-map-service" title="Permalink to this headline">¶</a></h1>
+<p>Web Map Service (WMS) is an OGC standard that supports requests such as <tt class="docutils literal"><span class="pre">getcapabilities</span></tt>, <tt class="docutils literal"><span class="pre">getmap</span></tt> and <tt class="docutils literal"><span class="pre">getfeatureinfo</span></tt>. GeoWebCache supports the former two natively and can proxy other requests to the WMS backend server. GeoWebCache was developed with WMS 1.1.0 in mind, but can support elevation and height through the use of modifiable parameters.</p>
+<p>To achieve good performance, requests should conform to the tiles that GeoWebCache stores. However, many WMS clients cannot make tiled requests. Since version 1.2.2, GeoWebCache can recombine tiles to answer arbitrary WMS requests. See Support for Regular WMS Clients below.</p>
+</div>
+<div class="section" id="wms-c-wms-tiling-clients">
+<h1>WMS-C - WMS Tiling Clients<a class="headerlink" href="#wms-c-wms-tiling-clients" title="Permalink to this headline">¶</a></h1>
+<p>The WMS Tiling Client Recommendation, or WMS-C for short, is a recommendation set forth by OSGeo for making tiled requests using WMS. You can read more about it here: <a class="reference external" href="http://wiki.osgeo.org/wiki/WMS_Tiling_Client_Recommendation">http://wiki.osgeo.org/wiki/WMS_Tiling_Client_Recommendation</a>.</p>
+<p>By default, any layer that does not specify a gridSubset will be configured to implement the recommended Unprojected and Mercator profiles.
+However, GeoWebCache supports any set of resolutions (scales), tile sizes and projections.</p>
+<div class="section" id="clients-udig-geoexplorer">
+<h2>Clients: uDig, GeoExplorer<a class="headerlink" href="#clients-udig-geoexplorer" title="Permalink to this headline">¶</a></h2>
+<p>On the front page of your GeoWebCache instance you will find a link to the WMS GetCapabilities document. Recent versions of uDig can use this URL to configure all layers automatically. The same applies to GeoExplorer and other GeoExt based applications.</p>
+<p>Note that each output format results in a new set of tiles. The GetCapabilities document can also be downloaded and edited manually or be filtered automatically using XSL templates.</p>
+</div>
+<div class="section" id="manual-configuration-of-openlayers">
+<h2>Manual Configuration of OpenLayers<a class="headerlink" href="#manual-configuration-of-openlayers" title="Permalink to this headline">¶</a></h2>
+<p>The easiest way to create an OpenLayers client is to copy the source from one of the automatically generated demos. To ensure that requests match the underlying grid properly you must pay particular attention to the map options <tt class="docutils literal"><span class="pre">resolutions</span></tt>, <tt class="docutils literal"><span class="pre">projection</span></tt> and <tt class="docutils literal"><span class="pre">maxExtent</span></tt>.</p>
+<p>Note that in current versions of OpenLayers the <em>basel layer</em> has a special meaning, hence certain parameters may be quitely ingored if you transfer a layer from the demo applications into an existing application.</p>
+</div>
+<div class="section" id="important-notes">
+<h2>Important Notes<a class="headerlink" href="#important-notes" title="Permalink to this headline">¶</a></h2>
+<p>Clients written to make tiled WMS requests assume that the origin is the bottom left coordinate of the bounding box. The gridSet used should therefore not be defined with <tt class="docutils literal"><span class="pre">&lt;alignTopLeft&gt;TRUE&lt;/alignTopLeft&gt;</span></tt>, if omitted the value is assumed to be false.</p>
+<p>Note that to use WMS you should not have two grid sets with the same SRS defined for a layer. GeoWebCache will use the SRS to look up the grid set and simply use the first one it finds. The case where two grid sets may be useful is if you have several sets of scales that you do not want combine into one large set.</p>
+</div>
+<div class="section" id="support-for-regular-wms-clients">
+<h2>Support for Regular WMS Clients<a class="headerlink" href="#support-for-regular-wms-clients" title="Permalink to this headline">¶</a></h2>
+<p>GeoWebCache can recombine and resample tiles to answer arbitrary WMS requests. To enable this feature, open <tt class="docutils literal"><span class="pre">geowebcache-wmsservice-context.xml</span></tt>, find <tt class="docutils literal"><span class="pre">&lt;property</span> <span class="pre">name=&quot;fullWMS&quot;&gt;&lt;value&gt;FALSE&lt;/value&gt;&lt;/property&gt;</span></tt> and change to <tt class="docutils literal"><span class="pre">&lt;property</span> <span class="pre">name=&quot;fullWMS&quot;&gt;&lt;value&gt;TRUE&lt;/value&gt;&lt;/property&gt;</span></tt>. Another way to enable this feature is to add the following string to the <tt class="docutils literal"><span class="pre">geowebcache.xml</span></tt> file: <tt class="docutils literal"><span class="pre">&lt;fullWMS&gt;TRUE&lt;/fullWMS&gt;</span></tt>. All layers that are to support this feature must currently be configured to support a PNG format. Inside the WMS request the user can add a new WMS parameter called <strong>hints</strong> which can be set to one of the following configurations: <em>speed</em>, <em>default</em>, <em>quality</em>. Going from <em>speed</em> to <em>quality</em> the image quality is increased but also the computation time.</p>
+<p>Note that this requires GeoWebCache to decompress many tiles and recompress the resulting canvas; also for PNG8 and GIF output formats an optimal palette is calculated. Response times will therefore be on the order of seconds, depending on the size of the requested image and the tile sizes. You may have to increase the heap size of the Java process (<tt class="docutils literal"><span class="pre">-Xmx256M</span></tt>) to use this functionality.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="index.html" title="previous chapter">Services</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="wmts.html" title="next chapter">WMTS - Web Map Tiling Service</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">WMS - Web Map Service</a></li>
+<li><a class="reference internal" href="#wms-c-wms-tiling-clients">WMS-C - WMS Tiling Clients</a><ul>
+<li><a class="reference internal" href="#clients-udig-geoexplorer">Clients: uDig, GeoExplorer</a></li>
+<li><a class="reference internal" href="#manual-configuration-of-openlayers">Manual Configuration of OpenLayers</a></li>
+<li><a class="reference internal" href="#important-notes">Important Notes</a></li>
+<li><a class="reference internal" href="#support-for-regular-wms-clients">Support for Regular WMS Clients</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="index.html" title="previous chapter">Services</a></li>
+            <li>Next: <a href="wmts.html" title="next chapter">WMTS - Web Map Tiling Service</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/services/wms.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Jul 21, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

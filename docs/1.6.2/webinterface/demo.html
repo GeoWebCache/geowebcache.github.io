@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Demo Page &mdash; GeoWebCache 1.6.2 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6.2',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.6.2 User Manual" href="../index.html" />
+      <link rel="up" title="Web Interface" href="index.html" />
+      <link rel="next" title="Seed Pages" href="seed.html" />
+      <link rel="prev" title="Status Page" href="status.html" />
+</head>
+<body class="webinterface/demo">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.6.2 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.6.2 Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Web Interface</a> &raquo;</li>
+  <li>Demo Page</li>
+</ul>
+        
+  <div class="section" id="demo-page">
+<span id="webinterface-demo"></span><h1>Demo Page<a class="headerlink" href="#demo-page" title="Permalink to this headline">¶</a></h1>
+<p>The Demo page contains a listing of all layers known to GeoWebCache and the valid services associated with them.  This information is set in the file <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt>.  To edit layer settings read the section on <a class="reference internal" href="../configuration/layers/index.html#configuration-layers"><em>Configuring Layers</em></a>.</p>
+<p>For each layer and depending on settings,  there will be a link to built-in OpenLayers demos for every projection and image format supported.  If EPSG:4326 (lat/lon) is supported by a particular layer, there will also be links to KML output, for display in Google Earth.</p>
+<p>The URL format of the demos is as follows:</p>
+<p>OpenLayers:</p>
+<div class="highlight-python"><div class="highlight"><pre>http://&lt;GEOWEBCACHE_URL&gt;/demo/&lt;LAYER_NAME&gt;?gridSet=&lt;GRID_SET&gt;&amp;format=&lt;IMAGE_MIMEFORMAT&gt;
+</pre></div>
+</div>
+<p>KML:</p>
+<div class="highlight-python"><div class="highlight"><pre>http://&lt;GEOWEBCACHE_URL&gt;/service/kml/&lt;LAYER_NAME&gt;.&lt;IMAGE_FORMAT&gt;.kml
+</pre></div>
+</div>
+<p>where:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&lt;GEOWEBCACHE_URL&gt;</span></tt> - URL to the GeoWebCache instance</li>
+<li><tt class="docutils literal"><span class="pre">&lt;LAYER_NAME&gt;</span></tt> - Name of the layer as known to GeoWebCache (<tt class="docutils literal"><span class="pre">&lt;wmsLayer&gt;</span></tt>).</li>
+<li><tt class="docutils literal"><span class="pre">&lt;GRID_SET&gt;</span></tt> - Name of the grid set as known in GeoWebCache (<tt class="docutils literal"><span class="pre">&lt;gridSet</span></tt>).  It does not need to be in the form &#8220;EPSG:####&#8221;.</li>
+<li><tt class="docutils literal"><span class="pre">&lt;IMAGE_MIMEFORMAT&gt;</span></tt> - MIME type of image format (<tt class="docutils literal"><span class="pre">image/png</span></tt>)</li>
+<li><tt class="docutils literal"><span class="pre">&lt;IMAGE_FORMAT&gt;</span></tt> = Typical extension for image format (<tt class="docutils literal"><span class="pre">png</span></tt>)</li>
+</ul>
+<div class="section" id="seeding-layers">
+<h2>Seeding layers<a class="headerlink" href="#seeding-layers" title="Permalink to this headline">¶</a></h2>
+<p>For each layer listed, there is a link to <em class="guilabel">Seed this layer</em>.  Clicking one of these links will bring up <a class="reference internal" href="seed.html#webinterface-seed"><em>Seed Pages</em></a> where seed tasks can be started or managed.</p>
+</div>
+<div class="section" id="reload-configuration">
+<h2>Reload configuration<a class="headerlink" href="#reload-configuration" title="Permalink to this headline">¶</a></h2>
+<p>There is also a button to <a class="reference internal" href="../configuration/reload.html#configuration-reload"><em>Reload Configuration</em></a>.  Click this to make any configuration changes known to GeoWebCache.  You will have to <a class="reference internal" href="../configuration/security.html#configuration-security"><em>authenticate</em></a> as an administrator first.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="status.html" title="previous chapter">Status Page</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="seed.html" title="next chapter">Seed Pages</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Demo Page</a><ul>
+<li><a class="reference internal" href="#seeding-layers">Seeding layers</a></li>
+<li><a class="reference internal" href="#reload-configuration">Reload configuration</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="status.html" title="previous chapter">Status Page</a></li>
+            <li>Next: <a href="seed.html" title="next chapter">Seed Pages</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/webinterface/demo.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Jun 17, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

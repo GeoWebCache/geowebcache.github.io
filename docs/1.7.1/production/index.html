@@ -1,0 +1,238 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Production &mdash; GeoWebCache 1.7.1 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.7.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.7.1 User Manual" href="../index.html" />
+      <link rel="next" title="Troubleshooting" href="../troubleshooting/index.html" />
+      <link rel="prev" title="In Memory Cache Statistics" href="../rest/statistics.html" />
+</head>
+<body class="production/index">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.7.1 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.7.1 Home</a> &raquo;</li>
+  <li>Production</li>
+</ul>
+        
+  <div class="section" id="production">
+<span id="id1"></span><h1>Production<a class="headerlink" href="#production" title="Permalink to this headline">¶</a></h1>
+<p>This section is a work in progress, and will eventually be extended to cover topics such as:</p>
+<ul class="simple">
+<li>Service architecture</li>
+<li>Apache Portable Runtime</li>
+<li>Java Advanced Imaging / ImageIO</li>
+<li>External tools for optimizing tiles</li>
+<li>Profiling</li>
+<li>Links for tips on improving WMS performance</li>
+</ul>
+<div class="section" id="operating-environment">
+<h2>Operating Environment<a class="headerlink" href="#operating-environment" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="java-settings">
+<h3>Java Settings<a class="headerlink" href="#java-settings" title="Permalink to this headline">¶</a></h3>
+<p>GeoWebCache speed depends in part on the chosen Java Runtime Environment (JRE). For best performance use a Java 6 JRE. If not possible, use a Java 5 JRE. JREs other than those released by Sun may work correctly, but are not tested nor supported.</p>
+<p>GeoWebCache does not need a lot of heap memory assigned to the JVM. Usually 512M is just fine if its the only web application running on the servlet container.</p>
+</div>
+<div class="section" id="servlet-container-settings">
+<h3>Servlet container settings<a class="headerlink" href="#servlet-container-settings" title="Permalink to this headline">¶</a></h3>
+<p>Depending on the power of your hardware setup and your expected user load, consider increasing the number of concurrent connections the servlet container is allowed to handle. For a high end set up you can even set it to 2000. In Tomcat, that&#8217;s performed by modifying the maxThreads attribute for the tomcatThreadPool Executor in server.xml.</p>
+</div>
+</div>
+<div class="section" id="hardware-considerations">
+<h2>Hardware considerations<a class="headerlink" href="#hardware-considerations" title="Permalink to this headline">¶</a></h2>
+<p>Having substantial (spare) RAM is of great help. Not for the JVM Heap, but for the Operating System&#8217;s disk block cache.</p>
+<p>Regular SATA drives or RAID arrays work fine, if you use NAS or SAN then things become a bit more tricky. Often these devices have a ton of overhead due to capabilities like deduplication, shared locks and so forth, and sometimes they kill the disk block cache altogether.</p>
+<p>Keeping an eye on the hard-drive access LED indicators might be a good idea (if you are not using SSDs), but also the IO Wait percentange in utilities like top might help diagnose I/O bottlenecks.</p>
+</div>
+<div class="section" id="operating-system-settings">
+<h2>Operating system settings<a class="headerlink" href="#operating-system-settings" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="open-files">
+<h3>Open Files<a class="headerlink" href="#open-files" title="Permalink to this headline">¶</a></h3>
+<p>GeoWebCache will probably open lots of files from the file system the cache is stored on, depending on the request load, though through short periods of time, as it opens the tile files to deliver their contents to the client. Therefore it is recommended that you set your Operating System settings to allow for at least 4 times as much open files the number of maximum concurrent connections configured in your servlet container.</p>
+</div>
+<div class="section" id="file-system-performance">
+<h3>File System Performance<a class="headerlink" href="#file-system-performance" title="Permalink to this headline">¶</a></h3>
+<p>Storing tiles on a NFS mount point is known to be slow. Ext3, Ext4 and XFS are known to perform well. btrfs should be ok too, as well as ZFS, though we didn&#8217;t actually test on them. Depending on the average tile size, a too small block size may lead to too much fragmentation, and a too big block size to too much wasted storage space.</p>
+<p>If possible, turn off File System&#8217;s last access time (atime) as it avoids writing to the File System for every tile read (check <a class="reference external" href="http://en.wikipedia.org/wiki/Atime_(Unix)#Criticism_of_atime">Criticism of atime</a> ).</p>
+</div>
+<div class="section" id="file-system-block-size">
+<h3>File System Block Size<a class="headerlink" href="#file-system-block-size" title="Permalink to this headline">¶</a></h3>
+<p>Since the Tile Cache stores thousands or even millions of files, the File System block size is of great importance for optimizing the actually used storage space for the cache. If that could be an issue, consider tuning your File System block size. Modern file systems usually have a default block size of 16K, which should be fine for most situations. If your average tile is a small 8-bit png you may want to use a 8K block size. If its a large JPEG you may want to increase the block size to 64K.</p>
+<p>If the block size is too large, it&#8217;s more likely that more disk space is gonna be wasted (since a tile file will use an integral number of blocks on disk, as for any file in your file system).
+If the block size is too small, performance will probably degrade as more I/O operations will be needed to read a single file.</p>
+</div>
+</div>
+<div class="section" id="seeding-and-truncating-the-cache">
+<h2>Seeding and Truncating the Cache<a class="headerlink" href="#seeding-and-truncating-the-cache" title="Permalink to this headline">¶</a></h2>
+<p>From the page that lists the demos there is a link for seeding each layer. This page presents a form with the seed/truncate options for the layer, as well as a summary of all the running tasks, if any.
+The following options can be set to submit a seed task:</p>
+<ul class="simple">
+<li>Number of threads to use</li>
+<li>Type of operation (seed|re-seed|truncate)</li>
+<li>Grid Set</li>
+<li>Image format</li>
+<li>Start and stop zoom levels</li>
+<li>Modifiable parameters (for any configured parameter filter)</li>
+<li>Bounding box</li>
+</ul>
+<p>Seeding and truncating with parameter filters is supported since version 1.2.5. If a layer is configured with parameter filters a dynamically generated input will be presented for each parameter filter, with the parameter filter&#8217;s default value.
+Every combination of different parameter filter values will generage a different tile set.</p>
+<div class="section" id="seed-failure-tolerance">
+<h3>Seed Failure Tolerance<a class="headerlink" href="#seed-failure-tolerance" title="Permalink to this headline">¶</a></h3>
+<p>As of version 1.2.5, it is possible to control how GWC behaves in the event that a backend (WMS for example) request fails during seeding, by using the following environment variables:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">GWC_SEED_RETRY_COUNT</span></tt> : specifies how many times to retry a failed request for each tile being seeded. Use <tt class="docutils literal"><span class="pre">0</span></tt> for no retries, or any higher number. Defaults to <tt class="docutils literal"><span class="pre">0</span></tt>, meaning no retries are performed. It also means that the defaults to the other two variables do not apply at least you specify a higher value for <tt class="docutils literal"><span class="pre">GWC_SEED_RETRY_COUNT</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">GWC_SEED_RETRY_WAIT</span></tt> : specifies how much to wait before each retry upon a failure to seed a tile, in milliseconds. Defaults to <tt class="docutils literal"><span class="pre">100ms</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">GWC_SEED_ABORT_LIMIT</span></tt> : specifies the aggregated number of failures that a group of seeding threads should reach before aborting the seeding operation as a whole. This value is shared by all the threads launched as a single thread group; so if the value is <tt class="docutils literal"><span class="pre">10</span></tt> and you launch a seed task with four threads, when <tt class="docutils literal"><span class="pre">10</span></tt> failures are reached by all or any of those four threads the four threads will abort the seeding task. The default is <tt class="docutils literal"><span class="pre">1000</span></tt>.</li>
+</ul>
+<p>These environment variables can be established by any of the following ways, in order of precedence:</p>
+<ul class="simple">
+<li>As a Java environment variable: for example <cite>java -DGWC_SEED_RETRY_COUNT=5 ...</cite></li>
+<li>As a Servlet context parameter in the web application&#8217;s <tt class="docutils literal"><span class="pre">WEB-INF/web.xml</span></tt> configuration file. for example:</li>
+</ul>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;context-param&gt;</span>
+  <span class="c">&lt;!-- milliseconds between each retry upon a backend request failure --&gt;</span>
+  <span class="nt">&lt;param-name&gt;</span>GWC_SEED_RETRY_WAIT<span class="nt">&lt;/param-name&gt;</span>
+  <span class="nt">&lt;param-value&gt;</span>500<span class="nt">&lt;/param-value&gt;</span>
+<span class="nt">&lt;/context-param&gt;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>As a System environment variable: <cite>export GWC_SEED_ABORT_LIMIT=2000; &lt;your usual command to run GWC here&gt;</cite> (or for Tomcat, use the Tomcat&#8217;s <cite>CATALINA_OPTS</cite> in Tomcat&#8217;s <cite>bin/catalina.sh</cite> as this: <cite>CATALINA_OPTS=&#8221;GWC_SEED_ABORT_LIMIT=2000 GWC_SEED_RETRY_COUNT=2</cite></li>
+</ul>
+</div>
+</div>
+<div class="section" id="resource-allocation">
+<h2>Resource Allocation<a class="headerlink" href="#resource-allocation" title="Permalink to this headline">¶</a></h2>
+<p>Also see <a class="reference external" href="http://geowebcache.org/trac/wiki/resources">http://geowebcache.org/trac/wiki/resources</a> for tools that can be used to estimate how much storage you need and how long seeding will take</p>
+</div>
+<div class="section" id="clustering">
+<h2>Clustering<a class="headerlink" href="#clustering" title="Permalink to this headline">¶</a></h2>
+<p>GeoWebCache is quite an efficient piece of software, as such it normally does not need clustering for performance reasons (GeoWebCache running on an old notebook with a seeded tile can literally flood a gigabit line), but it may still make sense to cluster GeoWebCache for high availability reasons.</p>
+<p>Before the GeoWebCache 1.4.x clustering GeoWebCache instances required:
+* turning off the disk quota subsystem
+* turning off the metastore subsystem
+* setting up clustering in active/passing mode</p>
+<p>Starting with 1.4.0 the metastore subsystem has been removed and replaced with full on disk metadata, which makes it possible to keep on using tile expiration and layer parameters even with clustering active, and the disk quota subsystem allows connection to a central database. Moreover, the tile creation workflow has been modified to allow for an active/active setup, meaning several GWC instances can now share the same cache directory without risks of file corruption or incomplete tiles being served back to clients.</p>
+<p>Each GWC internally synchs to avoid two requests end up working on the same meta tile, but by default separate GWC instances do not and will end up wasting time. In case you want to make sure two separate instances do not end up working on the same metatile you have two options:</p>
+<blockquote>
+<div><ul class="simple">
+<li>make it unlikely for two instances to work on the same metatile by using sticky sessions in the load balancer (very often requests for the tiles making up a metatile originate from the same client)</li>
+<li>switch to file based locking so that the GWC instances properly synch up activity</li>
+</ul>
+</div></blockquote>
+<p>In order to activate file based locking you will have to chage the geowebcache.xml configuration and activate the &#8220;NIO locks&#8221; as follows:</p>
+<div class="highlight-python"><pre>..
+&lt;backendTimeout&gt;120&lt;/backendTimeout&gt;
+&lt;lockProvider&gt;nioLock&lt;/lockProvider&gt;
+&lt;serviceInformation&gt;
+  &lt;title&gt;GeoWebCache&lt;/title&gt;
+...</pre>
+</div>
+<p>A new <tt class="docutils literal"><span class="pre">lockfiles</span></tt> directory will be created in the cache directory where all GeoWebCache instances will create the lock files for the time it takes to request and write out a metatile (a separate file will be used for each metatile).</p>
+<p>When setting up active/active clustering the disk quota subsystem will have to be configured in order to use an external JDBC database so that all nodes share the same disk quota metadata.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="../rest/statistics.html" title="previous chapter">In Memory Cache Statistics</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="../troubleshooting/index.html" title="next chapter">Troubleshooting</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Production</a><ul>
+<li><a class="reference internal" href="#operating-environment">Operating Environment</a><ul>
+<li><a class="reference internal" href="#java-settings">Java Settings</a></li>
+<li><a class="reference internal" href="#servlet-container-settings">Servlet container settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hardware-considerations">Hardware considerations</a></li>
+<li><a class="reference internal" href="#operating-system-settings">Operating system settings</a><ul>
+<li><a class="reference internal" href="#open-files">Open Files</a></li>
+<li><a class="reference internal" href="#file-system-performance">File System Performance</a></li>
+<li><a class="reference internal" href="#file-system-block-size">File System Block Size</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#seeding-and-truncating-the-cache">Seeding and Truncating the Cache</a><ul>
+<li><a class="reference internal" href="#seed-failure-tolerance">Seed Failure Tolerance</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#resource-allocation">Resource Allocation</a></li>
+<li><a class="reference internal" href="#clustering">Clustering</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="../rest/statistics.html" title="previous chapter">In Memory Cache Statistics</a></li>
+            <li>Next: <a href="../troubleshooting/index.html" title="next chapter">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/production/index.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on May 19, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

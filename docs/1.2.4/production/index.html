@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Production &mdash; GeoWebCache trunk User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'trunk',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache trunk User Manual" href="../index.html" />
+      <link rel="next" title="Troubleshooting" href="../troubleshooting/index.html" />
+      <link rel="prev" title="REST API" href="../rest/index.html" />
+</head>
+<body class="production/index">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache trunk User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache trunk Home</a> &raquo;</li>
+  <li>Production</li>
+</ul>
+        
+  <div class="section" id="production">
+<span id="id1"></span><h1>Production<a class="headerlink" href="#production" title="Permalink to this headline">¶</a></h1>
+<p>This section is work in progress, and will eventually be extended to cover topics such as</p>
+<ul class="simple">
+<li>Service architecture</li>
+<li>Apache Portable Runtime</li>
+<li>Java Advanced Imaging / ImageIO</li>
+<li>External tools for optimizing tiles</li>
+<li>Profiling</li>
+<li>Links for tips on improving WMS performance</li>
+</ul>
+<div class="section" id="operating-environment">
+<h2>Operating Environment<a class="headerlink" href="#operating-environment" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="java-settings">
+<h3>Java Settings<a class="headerlink" href="#java-settings" title="Permalink to this headline">¶</a></h3>
+<p>GeoWebCache speed depends in part on the chosen Java Runtime Environment (JRE). For best performance use a Java 6 JRE. If not possible, use a Java 5 JRE. JREs other than those released by Sun may work correctly, but are not tested nor supported.</p>
+<p>GeoWebCache does not need a lot of heap memory assigned to the JVM. Usually 512M is just fine if its the only web application running on the servlet container.</p>
+</div>
+<div class="section" id="servlet-container-settings">
+<h3>Servlet container settings<a class="headerlink" href="#servlet-container-settings" title="Permalink to this headline">¶</a></h3>
+<p>Depending on the power of your hardware set up and your expected user load, consider increasing the number of concurrent connections the servlet container is allowed to handle. For a high end set up you can even set it to 2000. In tomcat, that&#8217;s performed by modifying the maxThreads attribute for the tomcatThreadPool Executor in server.xml.</p>
+</div>
+</div>
+<div class="section" id="hardware-considerations">
+<h2>Hardware considerations<a class="headerlink" href="#hardware-considerations" title="Permalink to this headline">¶</a></h2>
+<p>Having substantial (spare) RAM is of great help. Not for the JVM Heap, but for the Operating System&#8217;s disk block cache.</p>
+<p>Regular SATA drives or RAID arrays work fine, if you use NAS or SAN then things become a bit more tricky. Often these devices have a ton of overhead due to capabilities like deduplication, shared locks and so forth, and sometimes they kill the disk block cache altogether.</p>
+<p>Keeping an eye on the harddrive access LED indicators might be a good idea (if you are not using SSDs), but also the IO Wait percentange in utilities like top might help diagnose I/O bottlenecks.</p>
+</div>
+<div class="section" id="operating-system-settings">
+<h2>Operating system settings<a class="headerlink" href="#operating-system-settings" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="open-files">
+<h3>Open Files<a class="headerlink" href="#open-files" title="Permalink to this headline">¶</a></h3>
+<p>GeoWebCache will probably open lots of files from the file system the cache is stored on, depending on the request load, though through short periods of time, as it opens the tile files to deliver their contents to the client. Therefore it is recommended that you set your Operating System settings to allow for at least 4 times as much open files the number of maximum concurrent connections configured in your servlet container.</p>
+</div>
+<div class="section" id="file-system-performance">
+<h3>File System Performance<a class="headerlink" href="#file-system-performance" title="Permalink to this headline">¶</a></h3>
+<p>Storing tiles on a NFS mount point is known to be slow. Ext3, Ext4 and XFS are known to perform well. btrfs should be ok too, as well as ZFS, though we didn&#8217;t actually test on them. Depending on the average tile size, a too small block size may lead to too much fragmentation, and a too big block size to too much wasted storage space.</p>
+<p>If possible, turn off File System&#8217;s last access time (atime) as it avoids writing to the File System for every tile read (check <a class="reference external" href="http://en.wikipedia.org/wiki/Atime_(Unix)#Criticism_of_atime">Criticism of atime</a> ).</p>
+</div>
+<div class="section" id="file-system-block-size">
+<h3>File System Block Size<a class="headerlink" href="#file-system-block-size" title="Permalink to this headline">¶</a></h3>
+<p>Since the Tile Cache stores thousands or even millions of files, the File System block size is of great importance for optimizing the actually used storage space for the cache. If that could be an issue, consider tuning your File System block size. Modern file systems usually have a default block size of 16K, which should be fine for most situations. If your average tile is a small 8-bit png you may want to use a 8K block size. If its a large JPEG you may want to increase the block size to 64K.</p>
+<p>If the block size is too large, it&#8217;s more likely that more disk space is gonna be wasted (since a tile file will use an integral number of blocks on disk, as for any file in your file system).
+If the block size is too small, performance will probably degrade as more I/O operations will be needed to read a single file.</p>
+</div>
+</div>
+<div class="section" id="seeding-and-truncating-the-cache">
+<h2>Seeding and Truncating the Cache<a class="headerlink" href="#seeding-and-truncating-the-cache" title="Permalink to this headline">¶</a></h2>
+<p>From the page that lists the demos there is a link for seeding each layer. Seeding and truncating layers with parameter filters is currently not supported, except for the default values.</p>
+<p>There is also a &#8220;RESTful interface&#8221;, which admittedly is not RESTful at all, for seeding: <a class="reference external" href="http://geowebcache.org/trac/wiki/GWC_seeder">http://geowebcache.org/trac/wiki/GWC_seeder</a></p>
+</div>
+<div class="section" id="resource-allocation">
+<h2>Resource Allocation<a class="headerlink" href="#resource-allocation" title="Permalink to this headline">¶</a></h2>
+<p>Also see <a class="reference external" href="http://geowebcache.org/trac/wiki/resources">http://geowebcache.org/trac/wiki/resources</a> for tools that can be used to estimate how much storage you need and how long seeding will take</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="../rest/index.html" title="previous chapter">REST API</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="../troubleshooting/index.html" title="next chapter">Troubleshooting</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference external" href="#">Production</a><ul>
+<li><a class="reference external" href="#operating-environment">Operating Environment</a><ul>
+<li><a class="reference external" href="#java-settings">Java Settings</a></li>
+<li><a class="reference external" href="#servlet-container-settings">Servlet container settings</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#hardware-considerations">Hardware considerations</a></li>
+<li><a class="reference external" href="#operating-system-settings">Operating system settings</a><ul>
+<li><a class="reference external" href="#open-files">Open Files</a></li>
+<li><a class="reference external" href="#file-system-performance">File System Performance</a></li>
+<li><a class="reference external" href="#file-system-block-size">File System Block Size</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#seeding-and-truncating-the-cache">Seeding and Truncating the Cache</a></li>
+<li><a class="reference external" href="#resource-allocation">Resource Allocation</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="../rest/index.html" title="previous chapter">REST API</a></li>
+            <li>Next: <a href="../troubleshooting/index.html" title="next chapter">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/production/index.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Jan 24, 2011.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

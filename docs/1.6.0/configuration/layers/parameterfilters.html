@@ -1,0 +1,240 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Parameter Filters &mdash; GeoWebCache 1.6.0 User Manual</title>
+  <link rel="stylesheet" href="../../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.6.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../../searchindex.js"></script>
+  <link rel="shortcut icon" href="../../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.6.0 User Manual" href="../../index.html" />
+      <link rel="up" title="Configuring Layers" href="index.html" />
+      <link rel="next" title="Request Filter" href="requestfilters.html" />
+      <link rel="prev" title="Palettes" href="palettes.html" />
+</head>
+<body class="configuration/layers/parameterfilters">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../../index.html">GeoWebCache 1.6.0 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../../index.html">GeoWebCache 1.6.0 Home</a> &raquo;</li>
+  <li><a href="../index.html" accesskey="U">Configuration</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Configuring Layers</a> &raquo;</li>
+  <li>Parameter Filters</li>
+</ul>
+        
+  <div class="section" id="parameter-filters">
+<span id="configuration-layers-parameterfilters"></span><h1>Parameter Filters<a class="headerlink" href="#parameter-filters" title="Permalink to this headline">¶</a></h1>
+<p>Parameter filters provide templates for extracting arbitrary parameters from requests. This allows using GeoWebCache in scenarios such as time series data, multiple styles for the same layer or with CQL filters set by the client.</p>
+<p>There are three types of parameter filters:</p>
+<ol class="arabic simple">
+<li><strong>String filters</strong> (<tt class="docutils literal"><span class="pre">&lt;stringParameterFilter&gt;</span></tt>)</li>
+<li><strong>Numerical filters</strong> (<tt class="docutils literal"><span class="pre">&lt;floatParameterFilter&gt;</span></tt>)</li>
+<li><strong>Regular expression filters</strong>  (<tt class="docutils literal"><span class="pre">&lt;regexParameterFilter&gt;</span></tt>)</li>
+</ol>
+<p>A given layer can have multiple types of parameter filters.</p>
+<p>If a request does not comply with the allowed values of the set parameter, the request will fail, usually with an error such as:</p>
+<div class="highlight-python"><pre>400: &lt;value&gt; violates filter for parameter &lt;key&gt;</pre>
+</div>
+<div class="section" id="string-filter">
+<h2>String filter<a class="headerlink" href="#string-filter" title="Permalink to this headline">¶</a></h2>
+<p>GeoWebCache can also use an allowable list of string values in a parameter filter for a given key.  If the string in the request matches one of the string specified in the parameter filter, the request will proceed.</p>
+<p>When specifying a string filter, three pieces of information are required:</p>
+<ul class="simple">
+<li><strong>Key</strong> (<tt class="docutils literal"><span class="pre">&lt;key&gt;</span></tt>).  The key is not case sensitive.</li>
+<li><strong>Default value</strong> (<tt class="docutils literal"><span class="pre">&lt;defaultValue&gt;</span></tt>).</li>
+<li><strong>List of strings</strong> (<tt class="docutils literal"><span class="pre">&lt;values&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&lt;string&gt;</span></tt>).  The strings are case sensitive.</li>
+</ul>
+<p>This information is presented in the following schema inside the <tt class="docutils literal"><span class="pre">&lt;wmsLayer&gt;</span></tt> tag:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;parameterFilters&gt;</span>
+  <span class="nt">&lt;stringParameterFilter&gt;</span>
+    <span class="nt">&lt;key&gt;</span> ...  <span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;defaultValue&gt;</span> ... <span class="nt">&lt;/defaultValue&gt;</span>
+    <span class="nt">&lt;values&gt;</span>
+      <span class="nt">&lt;string&gt;</span> ... <span class="nt">&lt;/string&gt;</span>
+      <span class="nt">&lt;string&gt;</span> ... <span class="nt">&lt;/string&gt;</span>
+       ...
+    <span class="nt">&lt;/values&gt;</span>
+  <span class="nt">&lt;/stringParameterFilter&gt;</span>
+<span class="nt">&lt;/parameterFilters&gt;</span>
+</pre></div>
+</div>
+<p>For example, it is possible to set the allowed values of the &#8220;styles&#8221; parameter to one of three values:  &#8220;polygon&#8221;, &#8220;population&#8221;, with a third default blank value for when the parameter is unspecified.</p>
+<p>The resulting parameter filter would be:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;parameterFilters&gt;</span>
+  <span class="nt">&lt;stringParameterFilter&gt;</span>
+    <span class="nt">&lt;key&gt;</span>styles<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;defaultValue&gt;&lt;/defaultValue&gt;</span>
+    <span class="nt">&lt;values&gt;</span>
+      <span class="nt">&lt;string&gt;&lt;/string&gt;</span>
+      <span class="nt">&lt;string&gt;</span>population<span class="nt">&lt;/string&gt;</span>
+      <span class="nt">&lt;string&gt;</span>polygon<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;/values&gt;</span>
+  <span class="nt">&lt;/stringParameterFilter&gt;</span>
+<span class="nt">&lt;/parameterFilters&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="numerical-filter">
+<h2>Numerical filter<a class="headerlink" href="#numerical-filter" title="Permalink to this headline">¶</a></h2>
+<p>Similar to a string filter, GeoWebCache can also recognize a list of numerical values for a given key.  If the value requested matches one of the values specified in the filter, the request will proceed.</p>
+<p>When specifying a numerical filter, four pieces of information are required:</p>
+<ul class="simple">
+<li><strong>Key</strong> (<tt class="docutils literal"><span class="pre">&lt;key&gt;</span></tt>).  This key is not case sensitive.</li>
+<li><strong>Default value</strong> (<tt class="docutils literal"><span class="pre">&lt;defaultValue&gt;</span></tt>).</li>
+<li><strong>List of values</strong> (<tt class="docutils literal"><span class="pre">&lt;values&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&lt;float&gt;</span></tt>).</li>
+<li><strong>Threshold</strong> (<tt class="docutils literal"><span class="pre">&lt;threshold&gt;</span></tt>).</li>
+</ul>
+<p>This information is presented in the following schema inside the <tt class="docutils literal"><span class="pre">&lt;wmsLayer&gt;</span></tt> tag:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;parameterFilters&gt;</span>
+  <span class="nt">&lt;floatParameterFilter&gt;</span>
+    <span class="nt">&lt;key&gt;</span> ... <span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;defaultValue&gt;</span> ... <span class="nt">&lt;/defaultValue&gt;</span>
+    <span class="nt">&lt;values&gt;</span>
+      <span class="nt">&lt;float&gt;</span> ... <span class="nt">&lt;/float&gt;</span>
+      <span class="nt">&lt;float&gt;</span> ... <span class="nt">&lt;/float&gt;</span>
+      ...
+    <span class="nt">&lt;/values&gt;</span>
+    <span class="nt">&lt;threshold&gt;</span> ... <span class="nt">&lt;/threshold&gt;</span>
+  <span class="nt">&lt;/floatParameterFilter&gt;</span>
+<span class="nt">&lt;/parameterFilters&gt;</span>
+</pre></div>
+</div>
+<p>For example, given a parameter called &#8220;year&#8221; (assuming this was recognized by the WMS), where the allowed values are &#8220;1999&#8221; and &#8220;2006&#8221; and the default value being &#8220;2006&#8221;, the filter would be:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;parameterFilters&gt;</span>
+  <span class="nt">&lt;floatParameterFilter&gt;</span>
+    <span class="nt">&lt;key&gt;</span>year<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;defaultValue&gt;</span>2006<span class="nt">&lt;/defaultValue&gt;</span>
+    <span class="nt">&lt;values&gt;</span>
+      <span class="nt">&lt;float&gt;</span>1999<span class="nt">&lt;/float&gt;</span>
+      <span class="nt">&lt;float&gt;</span>2006<span class="nt">&lt;/float&gt;</span>
+    <span class="nt">&lt;/values&gt;</span>
+    <span class="nt">&lt;threshold&gt;</span>1<span class="nt">&lt;/threshold&gt;</span>
+  <span class="nt">&lt;/floatParameterFilter&gt;</span>
+<span class="nt">&lt;/parameterFilters&gt;</span>
+</pre></div>
+</div>
+<p>Note also the above example sets a threshold of 1.  A value that is within the threshold of any of the allowed values will still proceed, albeit rounded to one of the allowed values.  So in this example, a value of &#8220;1997&#8221; would be successfully requested as &#8220;1996&#8221;, but a value of &#8220;2002&#8221; will fail.</p>
+<p>Thresholds are also valuable when managing possible floating point rounding errors.  For example, if your data has accuracy down to the sixth decimal place, you may want to use a threshold of <tt class="docutils literal"><span class="pre">1e-6</span></tt> to ensure proper matching.</p>
+</div>
+<div class="section" id="regular-expression-filter">
+<h2>Regular expression filter<a class="headerlink" href="#regular-expression-filter" title="Permalink to this headline">¶</a></h2>
+<p>For a finer control of parameter values, GeoWebCache can recognize regular expressions for the value in a filter.  If a requested value matches the pattern in the regular expression, the request will proceed.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">GeoWebCache uses standard Java regular expressions.  For more information, please see the regular expression pattern documentation at:  <a class="reference external" href="http://download.oracle.com/javase/1.5.0/docs/api/java/util/regex/Pattern.html">http://download.oracle.com/javase/1.5.0/docs/api/java/util/regex/Pattern.html</a>.</p>
+</div>
+<p>When specifying a regular expression filter, three pieces of information are required:</p>
+<ul class="simple">
+<li><strong>Key</strong> (<tt class="docutils literal"><span class="pre">&lt;key&gt;</span></tt>).  The key is not case sensitive.</li>
+<li><strong>Default value</strong> (<tt class="docutils literal"><span class="pre">&lt;defaultValue&gt;</span></tt>).</li>
+<li><strong>Regular expression</strong> (<tt class="docutils literal"><span class="pre">&lt;regex&gt;</span></tt>).</li>
+</ul>
+<p>This information is presented in the following schema inside the <tt class="docutils literal"><span class="pre">&lt;wmsLayer&gt;</span></tt> tag:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;parameterFilters&gt;</span>
+  <span class="nt">&lt;regexParameterFilter&gt;</span>
+    <span class="nt">&lt;key&gt;</span> ... <span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;defaultValue&gt;</span> ... <span class="nt">&lt;/defaultValue&gt;</span>
+    <span class="nt">&lt;regex&gt;</span> ... <span class="nt">&lt;/regex&gt;</span>
+  <span class="nt">&lt;/regexParameterFilter&gt;</span>
+<span class="nt">&lt;/parameterFilters&gt;</span>
+</pre></div>
+</div>
+<p>Regular expressions allows you to specify the same allowed styles as in the above string filter example.  To set two allowed values for the &#8220;styles&#8221; parameter: &#8220;polygon&#8221;, &#8220;population&#8221;, with a third default blank value for when the parameter is unspecified, the regular expression would be:</p>
+<div class="highlight-python"><pre>^(|polygon|population)$</pre>
+</div>
+<p>The resulting parameter filter would be:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;parameterFilters&gt;</span>
+  <span class="nt">&lt;regexParameterFilter&gt;</span>
+    <span class="nt">&lt;key&gt;</span>styles<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;defaultValue&gt;&lt;/defaultValue&gt;</span>
+    <span class="nt">&lt;regex&gt;</span>^(|polygon|population)$<span class="nt">&lt;/regex&gt;</span>
+  <span class="nt">&lt;/regexParameterFilter&gt;</span>
+<span class="nt">&lt;/parameterFilters&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="palettes.html" title="previous chapter">Palettes</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="requestfilters.html" title="next chapter">Request Filter</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Parameter Filters</a><ul>
+<li><a class="reference internal" href="#string-filter">String filter</a></li>
+<li><a class="reference internal" href="#numerical-filter">Numerical filter</a></li>
+<li><a class="reference internal" href="#regular-expression-filter">Regular expression filter</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="palettes.html" title="previous chapter">Palettes</a></li>
+            <li>Next: <a href="requestfilters.html" title="next chapter">Request Filter</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../../_sources/configuration/layers/parameterfilters.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Sep 23, 2014.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

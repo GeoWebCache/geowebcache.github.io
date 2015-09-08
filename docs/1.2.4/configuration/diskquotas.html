@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Disk Quotas &mdash; GeoWebCache trunk User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'trunk',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache trunk User Manual" href="../index.html" />
+      <link rel="up" title="Configuration" href="index.html" />
+      <link rel="next" title="Reloading Configuration" href="reload.html" />
+      <link rel="prev" title="Enabling/Disabling Services" href="services.html" />
+</head>
+<body class="configuration/diskquotas">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache trunk User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache trunk Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Configuration</a> &raquo;</li>
+  <li>Disk Quotas</li>
+</ul>
+        
+  <div class="section" id="disk-quotas">
+<span id="configuration-diskquotas"></span><h1>Disk Quotas<a class="headerlink" href="#disk-quotas" title="Permalink to this headline">¶</a></h1>
+<p>Since disk usage increases geometrically by zoom level, one single seeding task could fill up an entire storage device.  Because of this, GeoWebCache employs a disk quota system where one can specify the maximum amount of disk space to use for a particular layer, as well as logic on how to proceed when that quota is reached.  There are two different policies for managing the disk quotas:  Least Frequently Used (LFU) and Least Recently Used (LRU).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is not currently possible to set a disk quota for the entire GeoWebCache storage system.  It is also not possible to mix LFU and LRU on a single layer.</p>
+</div>
+<div class="section" id="enabling-disk-quotas">
+<h2>Enabling disk quotas<a class="headerlink" href="#enabling-disk-quotas" title="Permalink to this headline">¶</a></h2>
+<p><strong>Disk quotas are disabled by default.</strong>  Before setting any disk quotas, it is necessary to first enable the disk quota subsystem.  To do this, look in the <tt class="docutils literal"><span class="pre">geowebcache-servlet.xml</span></tt> file, located in the <tt class="docutils literal"><span class="pre">WEB-INF</span></tt> directory inside the GeoWebCache root directory.  Uncomment the following line:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!--import resource=&quot;geowebcache-diskquota-context.xml&quot;/--&gt;</span>
+</pre></div>
+</div>
+<p>Restart GeoWebCache for the change to take effect.</p>
+<p>A file called <tt class="docutils literal"><span class="pre">geowebcache-diskquota.xml</span></tt> should be created in the GeoWebCache cache directory.  All disk quota policy settings will be contained in this file.  You can also create this file using the following template as a guide.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;gwcQuotaConfiguration</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+  <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://geowebcache.org/schema/1.2.2/diskquota org/geowebcache/config/geowebcache-diskquota.xsd&quot;</span>
+  <span class="na">xmlns=</span><span class="s">&quot;http://geowebcache.org/schema/1.2.2/diskquota&quot;</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;diskBlockSize&gt;</span>
+    <span class="c">&lt;!-- ... --&gt;</span>
+  <span class="nt">&lt;/diskBlockSize&gt;</span>
+  <span class="nt">&lt;cacheCleanUpFrequency&gt;</span>
+    <span class="c">&lt;!-- ... --&gt;</span>
+  <span class="nt">&lt;/cacheCleanUpFrequency&gt;</span>
+  <span class="nt">&lt;cacheCleanUpUnits&gt;</span>
+    <span class="c">&lt;!-- ... --&gt;</span>
+  <span class="nt">&lt;/cacheCleanUpUnits&gt;</span>
+  <span class="nt">&lt;maxConcurrentCleanUps&gt;</span>
+    <span class="c">&lt;!-- ... --&gt;</span>
+  <span class="nt">&lt;/maxConcurrentCleanUps&gt;</span>
+
+  <span class="nt">&lt;layerQuotas&gt;</span>
+    <span class="nt">&lt;LayerQuota&gt;</span>
+      <span class="c">&lt;!-- First layer --&gt;</span>
+    <span class="nt">&lt;/LayerQuota&gt;</span>
+    <span class="c">&lt;!-- Other layers --&gt;</span>
+  <span class="nt">&lt;/layerQuotas&gt;</span>
+
+<span class="nt">&lt;/gwcQuotaConfiguration&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="disk-quota-policies">
+<h2>Disk quota policies<a class="headerlink" href="#disk-quota-policies" title="Permalink to this headline">¶</a></h2>
+<p>When a disk quota is reached, further tiles will be saved at the expense of other tiles which will be truncated.  The <strong>Least Frequently Used (LFU)</strong> policy will analyze the tile metastore and delete the tiles that have been accessed the least often.  The <strong>Least Recently Used (LRU)</strong> policy will analyze the tile metastore and delete the tiles that haven&#8217;t been accessed in the longest amount of time.</p>
+<p>Both policies are set in exactly the same way, with only the policy name changing.  The policies operate on a per-layer basis.</p>
+<p>The following information is needed:</p>
+<ul class="simple">
+<li>Layer name</li>
+<li>Policy</li>
+<li>Disk quota (maximum size)</li>
+</ul>
+<p>The layer name must match the name as given in <tt class="docutils literal"><span class="pre">geowebcache.xml</span></tt> (the <tt class="docutils literal"><span class="pre">&lt;name&gt;</span></tt> of the <tt class="docutils literal"><span class="pre">&lt;wmsLayer&gt;</span></tt>), the policy is one of <tt class="docutils literal"><span class="pre">LFU</span></tt> or <tt class="docutils literal"><span class="pre">LRU</span></tt>, and the disk quota requires both magnitude and units.  The magnitude can be any number (although when used in conjunction with units the value will usually be fairly small).  The units can be any one of bytes (B), kibibytes (KiB), mebibytes (MiB), gibibytes (GiB), tebibytes (TiB), etc.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The above units are not typos.  A kibibyte, valued at 1024 bytes, is different from a kilobyte, valued at 1000 bytes.  The same holds for mebibytes (1024 KiB), gibibytes (1024 MiB), and tebibytes (1024 GiB).</p>
+</div>
+<p>The syntax for a single disk quota policy is:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;LayerQuota&gt;</span>
+  <span class="nt">&lt;layer&gt;</span>LAYER_NAME<span class="nt">&lt;/layer&gt;</span>
+  <span class="nt">&lt;expirationPolicyName&gt;</span>POLICY<span class="nt">&lt;/expirationPolicyName&gt;</span>
+  <span class="nt">&lt;quota&gt;</span>
+    <span class="nt">&lt;value&gt;</span>DISK_QUOTA_VALUE<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;units&gt;</span>DISK_QUOTA_UNITS<span class="nt">&lt;/units&gt;</span>
+  <span class="nt">&lt;/quota&gt;</span>
+<span class="nt">&lt;/LayerQuota&gt;</span>
+</pre></div>
+</div>
+<p>For example, setting a LFU policy on the <tt class="docutils literal"><span class="pre">topp:states</span></tt> layer, with a disk quota of 100 Mebibytes would look like:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;layerQuotas&gt;</span>
+  <span class="nt">&lt;LayerQuota&gt;</span>
+    <span class="nt">&lt;layer&gt;</span>topp:states<span class="nt">&lt;/layer&gt;</span>
+    <span class="nt">&lt;expirationPolicyName&gt;</span>LFU<span class="nt">&lt;/expirationPolicyName&gt;</span>
+    <span class="nt">&lt;quota&gt;</span>
+      <span class="nt">&lt;value&gt;</span>100<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;units&gt;</span>MiB<span class="nt">&lt;/units&gt;</span>
+    <span class="nt">&lt;/quota&gt;</span>
+  <span class="nt">&lt;/LayerQuota&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="disk-block-size">
+<h2>Disk block size<a class="headerlink" href="#disk-block-size" title="Permalink to this headline">¶</a></h2>
+<p>GeoWebCache doesn&#8217;t know about the file system block size , so this will need to be set via the <tt class="docutils literal"><span class="pre">&lt;diskBlockSize&gt;</span></tt> tag.  Add this value to <tt class="docutils literal"><span class="pre">geowebcache-diskquota.xml</span></tt>, just beneath the namespace information:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;diskBlockSize&gt;</span>#<span class="nt">&lt;/diskBlockSize&gt;</span>
+</pre></div>
+</div>
+<p>Where <tt class="docutils literal"><span class="pre">#</span></tt> is the block size in bytes (such as 4096, 8192, 16384, etc.).</p>
+</div>
+<div class="section" id="polling-time">
+<h2>Polling time<a class="headerlink" href="#polling-time" title="Permalink to this headline">¶</a></h2>
+<p>GeoWebCache will not truncate the cache as soon as the disk quota is exceeded.  Instead, it polls the store at given intervals, with this time interval set in <tt class="docutils literal"><span class="pre">geowebcache-diskquota.xml</span></tt>.  There are two tags, <tt class="docutils literal"><span class="pre">&lt;cacheCleanUpFrequency&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;cacheCleanUpUnits&gt;</span></tt> that determine the time interval.  The first is a numeric identifier (such as 10) and the second gives the time units (as in <tt class="docutils literal"><span class="pre">SECONDS</span></tt>, <tt class="docutils literal"><span class="pre">MINUTES</span></tt>, <tt class="docutils literal"><span class="pre">HOURS</span></tt>, or <tt class="docutils literal"><span class="pre">DAYS</span></tt>).  To poll the store every five minutes, the code would be:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;cacheCleanUpFrequency&gt;</span>5<span class="nt">&lt;/cacheCleanUpFrequency&gt;</span>
+<span class="nt">&lt;cacheCleanUpUnits&gt;</span>MINUTES<span class="nt">&lt;/cacheCleanUpUnits&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="other-settings">
+<h2>Other settings<a class="headerlink" href="#other-settings" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to set the amount of threads to use when processing the disk quota.  This is set using the <tt class="docutils literal"><span class="pre">&lt;maxConcurrentCleanUps&gt;</span></tt> tag, for instance, to use three threads:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;maxConcurrentCleanUps&gt;</span>3<span class="nt">&lt;/maxConcurrentCleanUps&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="services.html" title="previous chapter">Enabling/Disabling Services</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="reload.html" title="next chapter">Reloading Configuration</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference external" href="#">Disk Quotas</a><ul>
+<li><a class="reference external" href="#enabling-disk-quotas">Enabling disk quotas</a></li>
+<li><a class="reference external" href="#disk-quota-policies">Disk quota policies</a></li>
+<li><a class="reference external" href="#disk-block-size">Disk block size</a></li>
+<li><a class="reference external" href="#polling-time">Polling time</a></li>
+<li><a class="reference external" href="#other-settings">Other settings</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="services.html" title="previous chapter">Enabling/Disabling Services</a></li>
+            <li>Next: <a href="reload.html" title="next chapter">Reloading Configuration</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/configuration/diskquotas.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Jan 24, 2011.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

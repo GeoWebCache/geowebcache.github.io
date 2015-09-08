@@ -1,0 +1,123 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Operations &mdash; GeoWebCache 1.6.1 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.6.1 User Manual" href="../index.html" />
+      <link rel="up" title="Concepts" href="index.html" />
+      <link rel="next" title="Configuration" href="../configuration/index.html" />
+      <link rel="prev" title="Storage components" href="stores.html" />
+</head>
+<body class="concepts/operations">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.6.1 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.6.1 Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Concepts</a> &raquo;</li>
+  <li>Operations</li>
+</ul>
+        
+  <div class="section" id="operations">
+<span id="concepts-operations"></span><h1>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h1>
+<p>When working with GeoWebCache tiles, there are three main operations associated with any task:  <strong>seeding</strong>, <strong>reseeding</strong>, and <strong>truncating</strong>.</p>
+<div class="section" id="seeding">
+<h2>Seeding<a class="headerlink" href="#seeding" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>seeding</strong> operation will generate any tiles not already saved in the cache.  If tiles are already in the cache, these will be preserved.  This operation is best for typical usage on a static cache.</p>
+</div>
+<div class="section" id="reseeding">
+<h2>Reseeding<a class="headerlink" href="#reseeding" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>reseeding</strong> operation will regenerate all tiles, even if already saved in the cache.  This operation is used when data and tiles have become stale and need to be updated.</p>
+</div>
+<div class="section" id="truncating">
+<h2>Truncating<a class="headerlink" href="#truncating" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>truncating</strong> operation will remove/delete tiles from the cache.  This operation is used when data tiles are stable and need to be removed, but without replacing them with newer tiles.  This operation can be used to free disk space, either manually, with <a class="reference internal" href="../configuration/diskquotas.html#configuration-diskquotas"><em>Disk Quotas</em></a>, or with <a class="reference internal" href="../configuration/layers/georss.html#configuration-layers-georss"><em>GeoRSS</em></a>.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="stores.html" title="previous chapter">Storage components</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="../configuration/index.html" title="next chapter">Configuration</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Operations</a><ul>
+<li><a class="reference internal" href="#seeding">Seeding</a></li>
+<li><a class="reference internal" href="#reseeding">Reseeding</a></li>
+<li><a class="reference internal" href="#truncating">Truncating</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="stores.html" title="previous chapter">Storage components</a></li>
+            <li>Next: <a href="../configuration/index.html" title="next chapter">Configuration</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/concepts/operations.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Jan 19, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

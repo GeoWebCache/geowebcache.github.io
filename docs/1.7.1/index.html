@@ -1,0 +1,188 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>GeoWebCache 1.7.1 &mdash; GeoWebCache 1.7.1 User Manual</title>
+  <link rel="stylesheet" href="_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '1.7.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="_static/jquery.js"></script>
+  <script type="text/javascript" src="_static/doctools.js"></script>
+  <script type="text/javascript" src="_static/searchtools.js"></script>
+  <script type="text/javascript" src="searchindex.js"></script>
+  <link rel="shortcut icon" href="_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.7.1 User Manual" href="#" />
+      <link rel="next" title="Introduction" href="introduction/index.html" />
+</head>
+<body class="index">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="#">GeoWebCache 1.7.1 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li>GeoWebCache 1.7.1 Home</li>
+</ul>
+        
+  <div class="section" id="geowebcache-release">
+<h1>GeoWebCache 1.7.1<a class="headerlink" href="#geowebcache-release" title="Permalink to this headline">¶</a></h1>
+<p>GeoWebCache is a Java web application used to cache map tiles coming from a variety of sources such as OGC Web Map Server (WMS). It implements various service interfaces (such as WMS-C, WMTS, TMS, Google Maps KML, Virtual Earth) in order to accelerate and optimize map image delivery.  It can also recombine tiles to work with regular WMS clients.</p>
+<p>This User Manual is a guide to the most common aspects of GeoWebCache.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction/index.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction/whatis.html">What Is GeoWebCache?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/community.html">Community</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/whichgwc.html">Standalone vs. GeoServer-integrated</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/prerequisites/index.html">Installing Java and Tomcat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/geowebcache.html">Installing GeoWebCache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/upgrading.html">Upgrading from a pre 1.4 release</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart/index.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart/index.html#view-preconfigured-layers">View preconfigured layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart/index.html#view-layers-from-a-wms">View layers from a WMS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart/index.html#special-cases">Special cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart/index.html#additional-information">Additional information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/index.html">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="concepts/tiles.html">Tiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concepts/gridsets.html">Gridsets and Gridsubsets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concepts/metatiles.html">Metatiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concepts/stores.html">Storage components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concepts/operations.html">Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration/index.html">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration/layers/index.html">Configuring Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/storage.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/services.html">Enabling/Disabling Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/diskquotas.html">Disk Quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/reload.html">Reloading Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="webinterface/index.html">Web Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="webinterface/status.html">Status Page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webinterface/demo.html">Demo Page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webinterface/seed.html">Seed Pages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="services/index.html">Services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="services/wms.html">WMS - Web Map Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="services/wms.html#wms-c-wms-tiling-clients">WMS-C - WMS Tiling Clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="services/wmts.html">WMTS - Web Map Tiling Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="services/tms.html">TMS - Tile Map Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="services/kml.html">KML</a></li>
+<li class="toctree-l2"><a class="reference internal" href="services/gmaps.html">Google Maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="services/bingmaps.html">Bing Maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="services/mobilegmaps.html">Mobile GMaps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="services/responseheaders.html">Special HTTP Response Headers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rest/index.html">REST API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rest/layers.html">Managing Layers through the REST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest/seed.html">Seeding and truncating through the REST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest/seed.html#querying-the-running-tasks">Querying the running tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest/seed.html#terminating-running-tasks">Terminating running tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest/diskquota.html">Disk Quota REST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest/masstruncate.html">Mass Truncation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest/statistics.html">In Memory Cache Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest/index.html#formats-and-representations">Formats and representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest/index.html#authentication">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest/index.html#status-codes">Status codes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="production/index.html">Production</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="production/index.html#operating-environment">Operating Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production/index.html#hardware-considerations">Hardware considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production/index.html#operating-system-settings">Operating system settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production/index.html#seeding-and-truncating-the-cache">Seeding and Truncating the Cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production/index.html#resource-allocation">Resource Allocation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production/index.html#clustering">Clustering</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting/index.html">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting/index.html#configuration-problems">Configuration problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting/index.html#incorrect-or-broken-tiles">Incorrect or broken tiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting/index.html#logging">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting/index.html#getting-help">Getting help</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="development/index.html">Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/index.html#setting-up">Setting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/index.html#setting-up-eclipse">Setting up Eclipse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/index.html#contributing-patches">Contributing patches</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq/index.html">Frequently Asked Questions</a></li>
+</ul>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="rightwise"><strong>Next</strong>: <a href="introduction/index.html" title="next chapter">Introduction</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar">
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Next: <a href="introduction/index.html" title="next chapter">Introduction</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="_sources/index.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on May 19, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

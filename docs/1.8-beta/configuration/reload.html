@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Reloading Configuration &mdash; GeoWebCache 1.8-beta User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.8-beta',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.8-beta User Manual" href="../index.html" />
+      <link rel="up" title="Configuration" href="index.html" />
+      <link rel="next" title="Web Interface" href="../webinterface/index.html" />
+      <link rel="prev" title="Disk Quotas" href="diskquotas.html" />
+</head>
+<body class="configuration/reload">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.8-beta User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.8-beta Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Configuration</a> &raquo;</li>
+  <li>Reloading Configuration</li>
+</ul>
+        
+  <div class="section" id="reloading-configuration">
+<span id="configuration-reload"></span><h1>Reloading Configuration<a class="headerlink" href="#reloading-configuration" title="Permalink to this headline">¶</a></h1>
+<p>After making a change to the GeoWebCache configuration, it has to be reloaded for the changes to take effect.</p>
+<p>The three altertnatives to do this are described below.</p>
+<div class="section" id="reload-the-application">
+<h2>Reload the application<a class="headerlink" href="#reload-the-application" title="Permalink to this headline">¶</a></h2>
+<p>The simplest way to reload the GeoWebCache configuration is to just reload the application from your servlet container.  In Tomcat&#8217;s application manager, you can click the &#8220;Reload&#8221; link next to your GeoWebCache instance.</p>
+</div>
+<div class="section" id="reload-via-the-web-interface">
+<h2>Reload via the web interface<a class="headerlink" href="#reload-via-the-web-interface" title="Permalink to this headline">¶</a></h2>
+<p>GeoWebCache has a <a class="reference internal" href="../webinterface/index.html#webinterface"><em>Web Interface</em></a> which contains a demo page.  On the bottom of the page that contains the list of layers, there is a button called <em class="guilabel">Reload Configuration</em>.  You will be asked to authenticate (see the section on <a class="reference internal" href="security.html#configuration-security"><em>Security</em></a> for more details).</p>
+</div>
+<div class="section" id="reload-via-a-post-request-with-curl">
+<h2>Reload via a POST request with cURL<a class="headerlink" href="#reload-via-a-post-request-with-curl" title="Permalink to this headline">¶</a></h2>
+<p>The <em class="guilabel">Reload Configuration</em> button in the web interface merely makes a POST request to the GeoWebCache <a class="reference internal" href="../rest/index.html#rest"><em>REST API</em></a> interface to reload the configuration.  Below is an example of this POST request executed using the command line utility <a class="reference external" href="http://curl.haxx.se/">cURL</a>:</p>
+<div class="highlight-python"><div class="highlight"><pre>curl -u &lt;admin&gt;:&lt;password&gt; -d &quot;reload_configuration=1&quot; http://&lt;GEOWEBCACHE_URL&gt;/rest/reload
+</pre></div>
+</div>
+<p>In this example, make sure to change the <tt class="docutils literal"><span class="pre">&lt;admin&gt;</span></tt> to your administrator username, <tt class="docutils literal"><span class="pre">&lt;password&gt;</span></tt> for your administrator password, and &lt;GEOWEBCACHE_URL&gt; for the URL to your geowebcache endpoint (such as <tt class="docutils literal"><span class="pre">localhost:8080/geowebcache</span></tt>).  See the section on <a class="reference internal" href="security.html#configuration-security"><em>Security</em></a> for more details about the username and password.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="diskquotas.html" title="previous chapter">Disk Quotas</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="../webinterface/index.html" title="next chapter">Web Interface</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Reloading Configuration</a><ul>
+<li><a class="reference internal" href="#reload-the-application">Reload the application</a></li>
+<li><a class="reference internal" href="#reload-via-the-web-interface">Reload via the web interface</a></li>
+<li><a class="reference internal" href="#reload-via-a-post-request-with-curl">Reload via a POST request with cURL</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="diskquotas.html" title="previous chapter">Disk Quotas</a></li>
+            <li>Next: <a href="../webinterface/index.html" title="next chapter">Web Interface</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/configuration/reload.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Aug 28, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

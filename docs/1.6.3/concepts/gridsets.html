@@ -1,0 +1,199 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Gridsets and Gridsubsets &mdash; GeoWebCache 1.6.3 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6.3',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.6.3 User Manual" href="../index.html" />
+      <link rel="up" title="Concepts" href="index.html" />
+      <link rel="next" title="Metatiles" href="metatiles.html" />
+      <link rel="prev" title="Tiles" href="tiles.html" />
+</head>
+<body class="concepts/gridsets">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.6.3 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.6.3 Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Concepts</a> &raquo;</li>
+  <li>Gridsets and Gridsubsets</li>
+</ul>
+        
+  <div class="section" id="gridsets-and-gridsubsets">
+<span id="concepts-gridsets"></span><h1>Gridsets and Gridsubsets<a class="headerlink" href="#gridsets-and-gridsubsets" title="Permalink to this headline">¶</a></h1>
+<p><strong>Gridsets</strong> and <strong>gridsubsets</strong> refer to the spatial reference system of the layers served by GeoWebCache. By nature and as introduced in the <a class="reference internal" href="tiles.html#concepts-tiles"><em>Tiles</em></a>, GeoWebCache is agnostic to reference-systems. When GeoWebCache makes a request to a WMS, it uses the gridset and gridsubset information to convert its internal tile index to a spatial request that the WMS will understand.</p>
+<p>A <strong>gridset</strong> is a global definition (i.e. not layer-specific) specifying:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A spatial reference system (EPSG code)</li>
+<li>A bounding box describing the extent, typically the maximum extent for the above reference system</li>
+<li>One of either a list of scale denominators, resolutions, or zoom levels</li>
+<li>The tile dimensions in pixels (constant for all zoom levels)</li>
+<li><em>(Optional)</em> Pixel size (to calculate scales).  The default is 0.28mm/pixel, corresponding to 90.71428571428572 DPI.</li>
+</ul>
+</div></blockquote>
+<p>A <strong>gridsubset</strong> is a layer-specific definition specifying:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The gridset for the layer</li>
+<li><em>(Optional)</em> The bounding box for that layer (which must be a subset of the extent of the gridSet)</li>
+<li><em>(Optional)</em> A list of zoom levels (which must be a subset of what is defined in the gridSet)</li>
+</ul>
+</div></blockquote>
+<p>By default, this information is set in <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt>.</p>
+<div class="section" id="from-gridsets-to-tiles">
+<h2>From gridsets to tiles<a class="headerlink" href="#from-gridsets-to-tiles" title="Permalink to this headline">¶</a></h2>
+<p>Below there is the description for every zoom level of the interpretation process of the gridset and gridsubset at a particular zoom level and determining which tiles are being requested.</p>
+<div class="figure align-left">
+<img alt="../_images/gridset_boundingbox.png" class="float-left" src="../_images/gridset_boundingbox.png" />
+<p class="caption"><strong>Initial bounding box</strong> - Assume the gridset bounding box is (-10.0,-30.0,85.0,21.0) and that the resolution for the zoom level is set to 11.25 degrees / 256 pixels = 0.04395 (Scale 1:1.8e7)</p>
+</div>
+<div class="figure align-left">
+<img alt="../_images/gridset_bl.png" class="float-left" src="../_images/gridset_bl.png" />
+<p class="caption"><strong>Gridset aligned bottom-left to the bounding box</strong> - The specified bounding box does not correspond to an integer number of tiles, so GeoWebCache expands the bounding box to (-10.0,-30.0,91.25,26.25).</p>
+</div>
+<div class="figure align-left">
+<img alt="../_images/gridset_tl.png" class="float-left" src="../_images/gridset_tl.png" />
+<p class="caption"><strong>Gridset aligned to the top-left of the bounding box</strong> - The default is to align the bounding box to the bottom left. This is assumed by tiling WMS clients and TMS. However, for WMTS it makes more sense to align to the top left corner. If <tt class="docutils literal"><span class="pre">&lt;alignTopLeft&gt;</span></tt> is set to true, GeoWebCache will expand toward the bottom instead. In this case the bounding box becomes (-10.0,-36.75,91.25,21.0).</p>
+</div>
+<div class="figure align-left">
+<img alt="../_images/gridsubset_boundingbox.png" class="float-left" src="../_images/gridsubset_boundingbox.png" />
+<p class="caption"><strong>Gridsubset bounding box</strong> - Since a particular layer may not cover the entire gridset, GeoWebCache uses a gridsubset, which can specify only a portion of the gridset.  If no extent is specified, it is assumed that the layer covers the entire gridset.  This example uses the gridsubset extent of (-14.0,-15.0,48.0,16.0).</p>
+</div>
+<div class="figure align-left">
+<img alt="../_images/gridsubset_tiles.png" class="float-left" src="../_images/gridsubset_tiles.png" />
+<p class="caption"><strong>Gridsubset tiles</strong> - GeoWebCache will round up the extents to the nearest tile boundaries.</p>
+</div>
+<div class="section" id="corresponding-xml">
+<h3>Corresponding XML<a class="headerlink" href="#corresponding-xml" title="Permalink to this headline">¶</a></h3>
+<p>The example above could be implemented by the following configuration details, set in  <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt>.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;gridSet&gt;</span>
+    <span class="nt">&lt;name&gt;</span>testGridset<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;srs&gt;&lt;number&gt;</span>4326<span class="nt">&lt;/number&gt;&lt;/srs&gt;</span>
+    <span class="nt">&lt;extent&gt;</span>
+      <span class="nt">&lt;coords&gt;</span>
+       <span class="nt">&lt;double&gt;</span>-10.0<span class="nt">&lt;/double&gt;</span>
+       <span class="nt">&lt;double&gt;</span>-30.0<span class="nt">&lt;/double&gt;</span>
+       <span class="nt">&lt;double&gt;</span>85.0<span class="nt">&lt;/double&gt;</span>
+       <span class="nt">&lt;double&gt;</span>21.0<span class="nt">&lt;/double&gt;</span>
+      <span class="nt">&lt;/coords&gt;</span>
+    <span class="nt">&lt;/extent&gt;</span>
+    <span class="nt">&lt;alignTopLeft&gt;</span>false<span class="nt">&lt;/alignTopLeft&gt;</span>
+    <span class="nt">&lt;resolutions&gt;</span>
+      <span class="nt">&lt;double&gt;</span>0.0879<span class="nt">&lt;/double&gt;</span>
+      <span class="nt">&lt;double&gt;</span>0.04395<span class="nt">&lt;/double&gt;</span>
+      <span class="nt">&lt;double&gt;</span>0.021975<span class="nt">&lt;/double&gt;</span>
+      <span class="nt">&lt;double&gt;</span>0.0109875<span class="nt">&lt;/double&gt;</span>
+    <span class="nt">&lt;/resolutions&gt;</span>
+    <span class="nt">&lt;tileHeight&gt;</span>250<span class="nt">&lt;/tileHeight&gt;</span>
+    <span class="nt">&lt;tileWidth&gt;</span>250<span class="nt">&lt;/tileWidth&gt;</span>
+<span class="nt">&lt;/gridSet&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;wmsLayer&gt;</span>
+  <span class="c">&lt;!-- Layer details --&gt;</span>
+  <span class="nt">&lt;gridSubset&gt;</span>
+    <span class="nt">&lt;gridSetName&gt;</span>testGridset<span class="nt">&lt;/gridSetName&gt;</span>
+    <span class="nt">&lt;extent&gt;</span>
+      <span class="nt">&lt;coords&gt;</span>
+       <span class="nt">&lt;double&gt;</span>-14.0<span class="nt">&lt;/double&gt;</span>
+       <span class="nt">&lt;double&gt;</span>-15.0<span class="nt">&lt;/double&gt;</span>
+       <span class="nt">&lt;double&gt;</span>48.0<span class="nt">&lt;/double&gt;</span>
+       <span class="nt">&lt;double&gt;</span>16.0<span class="nt">&lt;/double&gt;</span>
+      <span class="nt">&lt;/coords&gt;</span>
+    <span class="nt">&lt;/extent&gt;</span>
+  <span class="nt">&lt;/gridSubset&gt;</span>
+  <span class="c">&lt;!-- More layer details --&gt;</span>
+<span class="nt">&lt;/wmsLayer&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="tiles.html" title="previous chapter">Tiles</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="metatiles.html" title="next chapter">Metatiles</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Gridsets and Gridsubsets</a><ul>
+<li><a class="reference internal" href="#from-gridsets-to-tiles">From gridsets to tiles</a><ul>
+<li><a class="reference internal" href="#corresponding-xml">Corresponding XML</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="tiles.html" title="previous chapter">Tiles</a></li>
+            <li>Next: <a href="metatiles.html" title="next chapter">Metatiles</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/concepts/gridsets.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Sep 03, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

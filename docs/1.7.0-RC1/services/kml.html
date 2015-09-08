@@ -1,0 +1,130 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>KML &mdash; GeoWebCache 1.7.0-RC1 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.7.0-RC1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.7.0-RC1 User Manual" href="../index.html" />
+      <link rel="up" title="Services" href="index.html" />
+      <link rel="next" title="Google Maps" href="gmaps.html" />
+      <link rel="prev" title="TMS - Tile Map Service" href="tms.html" />
+</head>
+<body class="services/kml">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.7.0-RC1 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.7.0-RC1 Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Services</a> &raquo;</li>
+  <li>KML</li>
+</ul>
+        
+  <div class="section" id="kml">
+<span id="id1"></span><h1>KML<a class="headerlink" href="#kml" title="Permalink to this headline">¶</a></h1>
+<p>KML, Keyhole Markup Language, is an XML format and a OGC standard. The most common client is Google Earth. All features are referenced in lat/lon, hence GeoWebCache uses the EPSG:4326 grid set to publish tiles to such clients.</p>
+<div class="section" id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p>KML primarily refers to a way of creating linked documents that contain overlays or placemarks. Overlays are pyramids comprised of tiles from the cache. GeoWebCache stores the images in the cache. The hierarchies are generated on the fly, since reading them from disk would be slower.</p>
+<p>However, a subset of KML can also be used to described actual geometries in a vector format. This format is very similar to GML. In conjunction with GeoServer, GeoWebCache can also cache regionated KML tiles. This means that not only is the hierarchy described in KML, but the actual features are also sent to the as vector KML.</p>
+<p>The available KML hierarchies should be linked from the page with automatically generated demos. The syntax is</p>
+<p><tt class="docutils literal"><span class="pre">http://localhost:8080/geowebcache/service/kml/&lt;layer</span> <span class="pre">name&gt;.&lt;tile</span> <span class="pre">format</span> <span class="pre">extension&gt;.&lt;wrapper</span> <span class="pre">format</span> <span class="pre">extension&gt;</span></tt></p>
+<p>where, depending on your configuration
+layer name - The name of the layer
+tile format extension - most likey png or jpeg, but png8 and gif8 do also work
+wrapper format extenion - kml or kmz, the latter is a zipped version of the former</p>
+<p>A typical example is</p>
+<p><tt class="docutils literal"><span class="pre">http://localhost:8080/geowebcache/service/kml/topp:states.png.kml</span></tt></p>
+</div>
+<div class="section" id="advanced-topics">
+<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this headline">¶</a></h2>
+<p>Regionating is an advanced topic refers to a process of ordering elements by importance. This enables us to add more and more information as the user zooms in on a smaller area, without sending the complete dataset in advance. See the GeoServer documentation for more information.</p>
+<p>Request filters can be used to limit the pyramids to a non-rectangular shape. This is particularly important for KML clients as they can make thousands of requests while panning over areas where the WMS server has no data.</p>
+<p>Parameter filters are currently not supported.</p>
+<p>TODO: This section is incomplete, please help make it better</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="tms.html" title="previous chapter">TMS - Tile Map Service</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="gmaps.html" title="next chapter">Google Maps</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">KML</a><ul>
+<li><a class="reference internal" href="#background">Background</a></li>
+<li><a class="reference internal" href="#advanced-topics">Advanced Topics</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="tms.html" title="previous chapter">TMS - Tile Map Service</a></li>
+            <li>Next: <a href="gmaps.html" title="next chapter">Google Maps</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/services/kml.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Feb 20, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

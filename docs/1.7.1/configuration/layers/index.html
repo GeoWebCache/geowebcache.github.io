@@ -1,0 +1,152 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Configuring Layers &mdash; GeoWebCache 1.7.1 User Manual</title>
+  <link rel="stylesheet" href="../../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.7.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../../searchindex.js"></script>
+  <link rel="shortcut icon" href="../../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.7.1 User Manual" href="../../index.html" />
+      <link rel="up" title="Configuration" href="../index.html" />
+      <link rel="next" title="How to configure layers" href="howto.html" />
+      <link rel="prev" title="Configuration" href="../index.html" />
+</head>
+<body class="configuration/layers/index">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../../index.html">GeoWebCache 1.7.1 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../../index.html">GeoWebCache 1.7.1 Home</a> &raquo;</li>
+  <li><a href="../index.html" accesskey="U">Configuration</a> &raquo;</li>
+  <li>Configuring Layers</li>
+</ul>
+        
+  <div class="section" id="configuring-layers">
+<span id="configuration-layers"></span><h1>Configuring Layers<a class="headerlink" href="#configuring-layers" title="Permalink to this headline">¶</a></h1>
+<p>This section describes how to manually configure layers in GeoWebCache and provides some basic configuration examples.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="howto.html">How to configure layers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto.html#changing-the-location-of-geowebcache-xml">Changing the location of geowebcache.xml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto.html#tips-for-editing-xml">Tips for editing XML</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto.html#schema">Schema</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="projections.html">Custom projections</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="projections.html#defining-a-projection">Defining a projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="projections.html#associate-a-layer-with-the-projection">Associate a layer with the projection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="palettes.html">Palettes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameterfilters.html">Parameter Filters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="parameterfilters.html#string-filter">String filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameterfilters.html#numerical-filter">Numerical filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameterfilters.html#regular-expression-filter">Regular expression filter</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="requestfilters.html">Request Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arcgistilingschemes.html">Serving Layers From Pre-Cached ArcGIS Tiling Schemes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arcgistilingschemes.html#features-and-limitations">Features and Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arcgistilingschemes.html#arcgis-tiling-scheme">ArcGIS Tiling Scheme</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arcgistilingschemes.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arcgistilingschemes.html#alternative-cache-directory">Alternative cache directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arcgistilingschemes.html#openlayers-configuration">OpenLayers Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="staticcaps.html">Using a Static Capabilities Document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="georss.html">Expiring tiles with GeoRSS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="georss.html#reading-a-georss-feed">Reading a GeoRSS feed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="expiretiles.html">Tile expiration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="expiretiles.html#server-tile-expiration">Server tile expiration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expiretiles.html#client-tile-expiration">Client tile expiration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gridsets.html">Gridsets and Gridsubsets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectivezoom.html">Selective zoom level caching</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="selectivezoom.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selectivezoom.html#error-checking">Error checking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selectivezoom.html#interaction-with-seeding">Interaction with seeding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selectivezoom.html#interaction-with-metatiling">Interaction with metatiling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#minimal-configuration">Minimal configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#simple-configuration">Simple configuration</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="../index.html" title="previous chapter">Configuration</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="howto.html" title="next chapter">How to configure layers</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="../index.html" title="previous chapter">Configuration</a></li>
+            <li>Next: <a href="howto.html" title="next chapter">How to configure layers</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../../_sources/configuration/layers/index.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on May 19, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

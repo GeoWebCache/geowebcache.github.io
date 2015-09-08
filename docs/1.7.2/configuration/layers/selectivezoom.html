@@ -1,0 +1,172 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Selective zoom level caching &mdash; GeoWebCache 1.7.2 User Manual</title>
+  <link rel="stylesheet" href="../../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.7.2',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../../searchindex.js"></script>
+  <link rel="shortcut icon" href="../../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.7.2 User Manual" href="../../index.html" />
+      <link rel="up" title="Configuring Layers" href="index.html" />
+      <link rel="next" title="Examples" href="examples.html" />
+      <link rel="prev" title="Gridsets and Gridsubsets" href="gridsets.html" />
+</head>
+<body class="configuration/layers/selectivezoom">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../../index.html">GeoWebCache 1.7.2 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../../index.html">GeoWebCache 1.7.2 Home</a> &raquo;</li>
+  <li><a href="../index.html" accesskey="U">Configuration</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Configuring Layers</a> &raquo;</li>
+  <li>Selective zoom level caching</li>
+</ul>
+        
+  <div class="section" id="selective-zoom-level-caching">
+<span id="configuration-layers-selectivezoomlevel"></span><h1>Selective zoom level caching<a class="headerlink" href="#selective-zoom-level-caching" title="Permalink to this headline">¶</a></h1>
+<p>By default, GeoWebCache will cache tiles at all zoom levels that are configured for a given layer.  However, in some situations, such as to save disk space, it may be desirable to cache only tiles from a specific set of zoom levels, leaving others fetched but not stored.  In this case, GeoWebCache can be configured read a range of zoom levels for the layer and only cache tiles that are inside that range.  Tiles requested outside this range will still be displayed, but aside from being briefly held in memory, they will not be retained.  Such a feature is known as either <strong>cache pass-through</strong> or <strong>selective zoom level caching</strong>.</p>
+<p>The zoom levels to be cached are specified as a single <em>contiguous</em> range, with all zoom levels outside this range not being cached.  So, for a layer with twelve zoom levels (0-11), the following configurations would all be valid:</p>
+<ul class="simple">
+<li>Caching zoom levels 0-7 (leaving 5-11 unsaved)</li>
+<li>Caching zoom levels 3-6 (leaving 0-2, 7-11 unsaved)</li>
+<li>Caching zoom levels 0-11 (all zoom levels cached; this is the default behavior)</li>
+</ul>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>The minimum and maximum cached zoom levels are set in the <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt> file.  (Read more in <a class="reference internal" href="howto.html#configuration-layers-howto"><em>How to configure layers</em></a>).  To specify this, set the <tt class="docutils literal"><span class="pre">minCachedLevel</span></tt> and <tt class="docutils literal"><span class="pre">maxCachedLevel</span></tt> values to the minimum and maximum cached zoom levels respectively.  Alternately, it is possible to set only an upper or lower bound, by specifying only one of the two parameters.</p>
+<p>The following sample layer definitions shows the proper placement of these parameters, with other tags added in for context.  This example caches zoom levels 0-6:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;wmsLayer&gt;</span>
+  <span class="c">&lt;!-- ... --&gt;</span>
+  <span class="nt">&lt;gridSubsets&gt;</span>
+    <span class="nt">&lt;gridSubset&gt;</span>
+      <span class="nt">&lt;gridSetName&gt;</span> ... <span class="nt">&lt;/gridSetName&gt;</span>
+      <span class="nt">&lt;extent&gt;</span> ... <span class="nt">&lt;/extent&gt;</span>
+      <span class="nt">&lt;zoomStart&gt;</span> ... <span class="nt">&lt;/zoomStart&gt;</span>
+      <span class="nt">&lt;zoomStop&gt;</span> ... <span class="nt">&lt;/zoomStop&gt;</span>
+
+      <span class="nt">&lt;minCachedLevel&gt;</span>0<span class="nt">&lt;/minCachedLevel&gt;</span>
+      <span class="nt">&lt;maxCachedLevel&gt;</span>6<span class="nt">&lt;/maxCachedLevel&gt;</span>
+
+    <span class="nt">&lt;/gridSubset&gt;</span>
+  <span class="nt">&lt;/gridSubsets&gt;</span>
+  <span class="c">&lt;!-- ... --&gt;</span>
+<span class="nt">&lt;/wmsLayer&gt;</span>
+</pre></div>
+</div>
+<p>This example would cache all zoom levels greater than or equal to 3:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;wmsLayer&gt;</span>
+  <span class="c">&lt;!-- ... --&gt;</span>
+  <span class="nt">&lt;gridSubsets&gt;</span>
+    <span class="nt">&lt;gridSubset&gt;</span>
+      <span class="nt">&lt;gridSetName&gt;</span> ... <span class="nt">&lt;/gridSetName&gt;</span>
+      <span class="nt">&lt;extent&gt;</span> ... <span class="nt">&lt;/extent&gt;</span>
+      <span class="nt">&lt;zoomStart&gt;</span> ... <span class="nt">&lt;/zoomStart&gt;</span>
+      <span class="nt">&lt;zoomStop&gt;</span> ... <span class="nt">&lt;/zoomStop&gt;</span>
+
+      <span class="nt">&lt;minCachedLevel&gt;</span>3<span class="nt">&lt;/minCachedLevel&gt;</span>
+
+    <span class="nt">&lt;/gridSubset&gt;</span>
+  <span class="nt">&lt;/gridSubsets&gt;</span>
+  <span class="c">&lt;!-- ... --&gt;</span>
+<span class="nt">&lt;/wmsLayer&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="error-checking">
+<h2>Error checking<a class="headerlink" href="#error-checking" title="Permalink to this headline">¶</a></h2>
+<p>Values are not checked for correctness, which may cause improper results.  Values outside the full range of zoom levels for that layer will be treated as if they were the maximum or minimum valid zoom level.  Also, setting the <tt class="docutils literal"><span class="pre">minCachedLevel</span></tt> to a value higher than the <tt class="docutils literal"><span class="pre">maxCachedLevel</span></tt> will cause caching to be bypassed entirely for all zoom levels.</p>
+</div>
+<div class="section" id="interaction-with-seeding">
+<h2>Interaction with seeding<a class="headerlink" href="#interaction-with-seeding" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../../concepts/operations.html#concepts-operations"><em>seeding process</em></a> will respect selective zoom level caching.  It will still appear that the entire zoom range is being seeded, but levels outside the cache range will be ignored.</p>
+</div>
+<div class="section" id="interaction-with-metatiling">
+<h2>Interaction with metatiling<a class="headerlink" href="#interaction-with-metatiling" title="Permalink to this headline">¶</a></h2>
+<p>Even when not caching tiles, GeoWebCache will still take advantage of <a class="reference internal" href="../../concepts/metatiles.html#concepts-metatiles"><em>metatiling</em></a>.  When a request that is outside of the cached zoom level range comes in, metatiles will still be fetched and temporarily saved in memory in order to minimize redundant requests.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="gridsets.html" title="previous chapter">Gridsets and Gridsubsets</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="examples.html" title="next chapter">Examples</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Selective zoom level caching</a><ul>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#error-checking">Error checking</a></li>
+<li><a class="reference internal" href="#interaction-with-seeding">Interaction with seeding</a></li>
+<li><a class="reference internal" href="#interaction-with-metatiling">Interaction with metatiling</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="gridsets.html" title="previous chapter">Gridsets and Gridsubsets</a></li>
+            <li>Next: <a href="examples.html" title="next chapter">Examples</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../../_sources/configuration/layers/selectivezoom.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Jul 21, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

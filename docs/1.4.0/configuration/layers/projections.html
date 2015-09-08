@@ -1,0 +1,316 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Custom projections &mdash; GeoWebCache 1.4.x User Manual</title>
+  <link rel="stylesheet" href="../../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.4.x',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../../searchindex.js"></script>
+  <link rel="shortcut icon" href="../../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.4.x User Manual" href="../../index.html" />
+      <link rel="up" title="Configuring Layers" href="index.html" />
+      <link rel="next" title="Palettes" href="palettes.html" />
+      <link rel="prev" title="How to configure layers" href="howto.html" />
+</head>
+<body class="configuration/layers/projections">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../../index.html">GeoWebCache 1.4.x User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../../index.html">GeoWebCache 1.4.x Home</a> &raquo;</li>
+  <li><a href="../index.html" accesskey="U">Configuration</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Configuring Layers</a> &raquo;</li>
+  <li>Custom projections</li>
+</ul>
+        
+  <div class="section" id="custom-projections">
+<span id="configuration-layers-projections"></span><h1>Custom projections<a class="headerlink" href="#custom-projections" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In GeoWebCache, a projection is also known as a <a class="reference internal" href="../../concepts/gridsets.html#concepts-gridsets"><em>gridset</em></a>.</p>
+</div>
+<p>GeoWebCache only advertises support for EPSG:4326 (longitude/latitude) and EPSG:900913 (spherical web mercator) by default.  Any other projections need to be manually defined and configured.</p>
+<p>Adding a custom projection to GeoWebCache involves modifying (or creating, if it doesn&#8217;t yet exist) the <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt> configuration file to include a custom projection definition and then associating the layer with that projection.  (Read more about this file in the section on <a class="reference internal" href="howto.html#configuration-layers-howto"><em>How to configure layers</em></a>.)</p>
+<div class="section" id="defining-a-projection">
+<h2>Defining a projection<a class="headerlink" href="#defining-a-projection" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">GeoWebCache does not know anything about projections; it only knows about its own tile grid.  This information is used when passing information to the originating WMS.  It is assumed that the WMS can understand requests in the custom projection.</p>
+</div>
+<p>In order to add a custom projection to GeoWebCache, the following information is required:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="20%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field</th>
+<th class="head">Tag</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Name</td>
+<td><tt class="docutils literal"><span class="pre">&lt;name&gt;</span></tt></td>
+<td>A human readable name for the projection.  Can typically be the name of the projection (e.g. EPSG:2263).</td>
+</tr>
+<tr class="row-odd"><td>SRS number</td>
+<td><tt class="docutils literal"><span class="pre">&lt;srs&gt;&lt;number&gt;</span></tt></td>
+<td>The numerical identifier for the SRS (e.g. 2263).</td>
+</tr>
+<tr class="row-even"><td>SRS extent</td>
+<td><tt class="docutils literal"><span class="pre">&lt;extent&gt;&lt;coords&gt;</span></tt></td>
+<td>The full extent for the projection in its native units.</td>
+</tr>
+<tr class="row-odd"><td>List of valid resolutions</td>
+<td><tt class="docutils literal"><span class="pre">&lt;resolutions&gt;</span></tt></td>
+<td>While a list of resolutions typically decrease by a factor of two with each entry, this is not required.</td>
+</tr>
+<tr class="row-even"><td>Meters per unit</td>
+<td><tt class="docutils literal"><span class="pre">&lt;metersPerUnit&gt;</span></tt></td>
+<td>A constant value of the amount of meters in the native units for the projection.</td>
+</tr>
+<tr class="row-odd"><td>Tile height and width</td>
+<td><tt class="docutils literal"><span class="pre">&lt;tileHeight&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&lt;tileWidth&gt;</span></tt></td>
+<td>Typically 256 pixels each, though other values are valid.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For full information, please see the GeoWebCache schema.  (Read more about the schema in the section on <a class="reference internal" href="howto.html#configuration-layers-howto"><em>How to configure layers</em></a>.)</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When defining a new SRS/gridset, it is important to <strong>use the full extent of the projection</strong>, even if your data only covers a portion of that extent.  The extent of the layer itself is defined in the <tt class="docutils literal"><span class="pre">&lt;gridSubset&gt;</span></tt> of the layer definition below.</p>
+</div>
+<div class="section" id="determining-srs-extent">
+<h3>Determining SRS extent<a class="headerlink" href="#determining-srs-extent" title="Permalink to this headline">¶</a></h3>
+<p>If unsure about the full extent of the SRS, you can use an online resource such as <a class="reference external" href="http://spatialreference.org">http://spatialreference.org</a> and use the <em class="guilabel">Projected Bounds</em>.  For example, on the <a class="reference external" href="http://spatialreference.org/ref/epsg/2263/">reference page for EPSG:2263</a> the Projected Bounds is listed as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">909126.0155</span><span class="p">,</span> <span class="mf">110626.2880</span><span class="p">,</span> <span class="mf">1610215.3590</span><span class="p">,</span> <span class="mf">424498.0529</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="determining-meters-per-unit">
+<h3>Determining meters per unit<a class="headerlink" href="#determining-meters-per-unit" title="Permalink to this headline">¶</a></h3>
+<p>While many SRS definitions are in meters, there are many other units possible.  Setting this will prevent grid shifts and unexpected output.</p>
+<p>The following is a short list of correct values of <tt class="docutils literal"><span class="pre">&lt;metersPerUnit&gt;</span></tt> for different units:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Unit</th>
+<th class="head">Meters per unit</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Degrees</td>
+<td>111319.49079327358</td>
+</tr>
+<tr class="row-odd"><td>Feet</td>
+<td>0.3048</td>
+</tr>
+<tr class="row-even"><td>Inches</td>
+<td>0.0254</td>
+</tr>
+<tr class="row-odd"><td>Meters</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>While it is not necessary to put a <tt class="docutils literal"><span class="pre">&lt;metersPerUnit&gt;</span></tt> value when the projection is defined in meters, it is still good practice (and will prevent warnings from being displayed in the logs).</p>
+</div>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>The following is an example of a custom projection definition, in this case <a class="reference external" href="http://spatialreference.org/ref/epsg/2263/">EPSG:2263</a>, or <strong>New York Long Island (ft)</strong>.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;gridSets&gt;</span>
+  ...
+  <span class="nt">&lt;gridSet&gt;</span>
+    <span class="nt">&lt;name&gt;</span>EPSG:2263<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;srs&gt;&lt;number&gt;</span>2263<span class="nt">&lt;/number&gt;&lt;/srs&gt;</span>
+    <span class="nt">&lt;extent&gt;</span>
+      <span class="nt">&lt;coords&gt;</span>
+        <span class="nt">&lt;double&gt;</span>909126.0155<span class="nt">&lt;/double&gt;</span>
+        <span class="nt">&lt;double&gt;</span>110626.2880<span class="nt">&lt;/double&gt;</span>
+        <span class="nt">&lt;double&gt;</span>1610215.3590<span class="nt">&lt;/double&gt;</span>
+        <span class="nt">&lt;double&gt;</span>424498.0529<span class="nt">&lt;/double&gt;</span>
+      <span class="nt">&lt;/coords&gt;</span>
+    <span class="nt">&lt;/extent&gt;</span>
+    <span class="nt">&lt;resolutions&gt;</span>
+      <span class="nt">&lt;double&gt;</span>466.2771277605631<span class="nt">&lt;/double&gt;</span>
+      <span class="nt">&lt;double&gt;</span>233.13856388028155<span class="nt">&lt;/double&gt;</span>
+      <span class="nt">&lt;double&gt;</span>116.569281940140775<span class="nt">&lt;/double&gt;</span>
+      <span class="nt">&lt;double&gt;</span>58.2846409700703875<span class="nt">&lt;/double&gt;</span>
+      <span class="nt">&lt;double&gt;</span>29.14232048503519375<span class="nt">&lt;/double&gt;</span>
+      <span class="nt">&lt;double&gt;</span>14.571160242517596875<span class="nt">&lt;/double&gt;</span>
+      <span class="nt">&lt;double&gt;</span>7.2855801212587984375<span class="nt">&lt;/double&gt;</span>
+    <span class="nt">&lt;/resolutions&gt;</span>
+    <span class="nt">&lt;metersPerUnit&gt;</span>0.3048<span class="nt">&lt;/metersPerUnit&gt;</span>
+    <span class="nt">&lt;tileHeight&gt;</span>256<span class="nt">&lt;/tileHeight&gt;</span>
+    <span class="nt">&lt;tileWidth&gt;</span>256<span class="nt">&lt;/tileWidth&gt;</span>
+  <span class="nt">&lt;/gridSet&gt;</span>
+  ...
+<span class="nt">&lt;/gridSets&gt;</span>
+</pre></div>
+</div>
+<p>Note that specific layers will need to be associated with this projection before they can be viewed as such.</p>
+</div>
+</div>
+<div class="section" id="associate-a-layer-with-the-projection">
+<h2>Associate a layer with the projection<a class="headerlink" href="#associate-a-layer-with-the-projection" title="Permalink to this headline">¶</a></h2>
+<p>Once the projection is loaded in GeoWebCache, the next step is to associate a given layer with that projection.  This is done in the same <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt> file.</p>
+<p>The necessary information is:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="20%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field</th>
+<th class="head">Tag</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Layer name</td>
+<td><tt class="docutils literal"><span class="pre">&lt;name&gt;</span></tt></td>
+<td>The layer name as published by GeoWebCache. It can be the same name as known to the WMS (for example, in GeoServer, this would be <tt class="docutils literal"><span class="pre">namespace:layername</span></tt>) or not.</td>
+</tr>
+<tr class="row-odd"><td>Name of projection</td>
+<td><tt class="docutils literal"><span class="pre">&lt;gridSetName&gt;</span></tt></td>
+<td>The projection name as referenced in the layer definition (in this example, <tt class="docutils literal"><span class="pre">EPSG:2236</span></tt>)</td>
+</tr>
+<tr class="row-even"><td>Layer extent</td>
+<td><tt class="docutils literal"><span class="pre">&lt;extent&gt;&lt;coords&gt;</span></tt></td>
+<td>The extent of the layer.  This is where the restricted extent is set.</td>
+</tr>
+<tr class="row-odd"><td>WMS URL</td>
+<td><tt class="docutils literal"><span class="pre">&lt;wmsUrl&gt;</span></tt></td>
+<td>The path to the WMS endpoint.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="id1">
+<h3>Example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>The following is an example of a single layer added using the previously-defined (EPSG:2263) projection.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;layers&gt;</span>
+  ...
+  <span class="nt">&lt;wmsLayer&gt;</span>
+    <span class="nt">&lt;name&gt;</span>my:layer<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;gridSubsets&gt;</span>
+      <span class="nt">&lt;gridSubset&gt;</span>
+        <span class="nt">&lt;gridSetName&gt;</span>EPSG:2263<span class="nt">&lt;/gridSetName&gt;</span>
+        <span class="nt">&lt;extent&gt;</span>
+          <span class="nt">&lt;coords&gt;</span>
+            <span class="nt">&lt;double&gt;</span>937558.37821372<span class="nt">&lt;/double&gt;</span>
+            <span class="nt">&lt;double&gt;</span>89539.946131199<span class="nt">&lt;/double&gt;</span>
+            <span class="nt">&lt;double&gt;</span>1090288.6738155<span class="nt">&lt;/double&gt;</span>
+            <span class="nt">&lt;double&gt;</span>327948.21243638<span class="nt">&lt;/double&gt;</span>
+          <span class="nt">&lt;/coords&gt;</span>
+        <span class="nt">&lt;/extent&gt;</span>
+      <span class="nt">&lt;/gridSubset&gt;</span>
+    <span class="nt">&lt;/gridSubsets&gt;</span>
+    <span class="nt">&lt;wmsUrl&gt;&lt;string&gt;</span>http://myserver/geoserver/wms<span class="nt">&lt;/string&gt;&lt;/wmsUrl&gt;</span>
+  <span class="nt">&lt;/wmsLayer&gt;</span>
+  ...
+<span class="nt">&lt;/layers&gt;</span>
+</pre></div>
+</div>
+<p>Once any changes are made to <tt class="file docutils literal"><span class="pre">geowebcache.xml</span></tt>, it is necessary to <a class="reference internal" href="../reload.html#configuration-reload"><em>reload the configuration</em></a>.</p>
+</div>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="howto.html" title="previous chapter">How to configure layers</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="palettes.html" title="next chapter">Palettes</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Custom projections</a><ul>
+<li><a class="reference internal" href="#defining-a-projection">Defining a projection</a><ul>
+<li><a class="reference internal" href="#determining-srs-extent">Determining SRS extent</a></li>
+<li><a class="reference internal" href="#determining-meters-per-unit">Determining meters per unit</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#associate-a-layer-with-the-projection">Associate a layer with the projection</a><ul>
+<li><a class="reference internal" href="#id1">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="howto.html" title="previous chapter">How to configure layers</a></li>
+            <li>Next: <a href="palettes.html" title="next chapter">Palettes</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../../_sources/configuration/layers/projections.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Jul 09, 2013.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

@@ -1,0 +1,146 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Configuration &mdash; GeoWebCache 1.7.0 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.7.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.7.0 User Manual" href="../index.html" />
+      <link rel="next" title="Configuring Layers" href="layers/index.html" />
+      <link rel="prev" title="Operations" href="../concepts/operations.html" />
+</head>
+<body class="configuration/index">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.7.0 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.7.0 Home</a> &raquo;</li>
+  <li>Configuration</li>
+</ul>
+        
+  <div class="section" id="configuration">
+<span id="id1"></span><h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<p>This section describes the several configuration options available in GeoWebCache.</p>
+<p>For information on graphical configuration options, please see the section on the <a class="reference internal" href="../webinterface/index.html#webinterface"><em>Web Interface</em></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">After making any changes to the configuration, make sure to <a class="reference internal" href="reload.html#configuration-reload"><em>reload the configuration</em></a>.</p>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="layers/index.html">Configuring Layers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="layers/howto.html">How to configure layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers/projections.html">Custom projections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers/palettes.html">Palettes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers/parameterfilters.html">Parameter Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers/requestfilters.html">Request Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers/arcgistilingschemes.html">Serving Layers From Pre-Cached ArcGIS Tiling Schemes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers/staticcaps.html">Using a Static Capabilities Document</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers/georss.html">Expiring tiles with GeoRSS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers/expiretiles.html">Tile expiration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers/gridsets.html">Gridsets and Gridsubsets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers/selectivezoom.html">Selective zoom level caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers/examples.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="storage.html#cache">Cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html#blobstore-configuration">BlobStore configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="services.html">Enabling/Disabling Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diskquotas.html">Disk Quotas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diskquotas.html#enabling-disk-quotas">Enabling disk quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diskquotas.html#disabling-disk-quotas">Disabling disk quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diskquotas.html#expiration-policies">Expiration policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diskquotas.html#global-quota">Global Quota</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diskquotas.html#individual-layer-quotas">Individual Layer Quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diskquotas.html#disk-block-size">Disk block size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diskquotas.html#polling-time">Polling time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diskquotas.html#other-settings">Other settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diskquotas.html#disk-quota-storage">Disk quota storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diskquotas.html#disk-quota-schema">Disk quota schema</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reload.html">Reloading Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reload.html#reload-the-application">Reload the application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reload.html#reload-via-the-web-interface">Reload via the web interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reload.html#reload-via-a-post-request-with-curl">Reload via a POST request with cURL</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="../concepts/operations.html" title="previous chapter">Operations</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="layers/index.html" title="next chapter">Configuring Layers</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="../concepts/operations.html" title="previous chapter">Operations</a></li>
+            <li>Next: <a href="layers/index.html" title="next chapter">Configuring Layers</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/configuration/index.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Mar 20, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

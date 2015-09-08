@@ -1,0 +1,161 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Seed Pages &mdash; GeoWebCache 1.8.x User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.8.x',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.8.x User Manual" href="../index.html" />
+      <link rel="up" title="Web Interface" href="index.html" />
+      <link rel="next" title="Services" href="../services/index.html" />
+      <link rel="prev" title="Demo Page" href="demo.html" />
+</head>
+<body class="webinterface/seed">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.8.x User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.8.x Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Web Interface</a> &raquo;</li>
+  <li>Seed Pages</li>
+</ul>
+        
+  <div class="section" id="seed-pages">
+<span id="webinterface-seed"></span><h1>Seed Pages<a class="headerlink" href="#seed-pages" title="Permalink to this headline">¶</a></h1>
+<p>For each layer known to GeoWebCache, there is a corresponding Seed page allowing to start or manage seed tasks.  These pages are front-ends for the <a class="reference internal" href="../rest/index.html#rest"><em>REST API</em></a>.</p>
+<p>The URL format for the Seed pages is:</p>
+<div class="highlight-python"><pre>http://&lt;GEOWEBCACHE_URL&gt;/rest/seed/&lt;LAYER_NAME&gt;</pre>
+</div>
+<div class="section" id="starting-a-seed-task">
+<h2>Starting a seed task<a class="headerlink" href="#starting-a-seed-task" title="Permalink to this headline">¶</a></h2>
+<p>The interface can start one of the three <a class="reference internal" href="../concepts/operations.html#concepts-operations"><em>Operations</em></a>:  <strong>seed</strong>, <strong>reseed</strong>, or <strong>truncate</strong>.</p>
+<p>To create a new seed task, fill out the form with the following information:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><em class="guilabel">Number of threads to use</em></td>
+<td>This refers to processor management of the task.  A good rule of thumb is to set this value to two times (2x) the number of cores in your system.</td>
+</tr>
+<tr class="row-odd"><td><em class="guilabel">Type of operation</em></td>
+<td>This is one of the <strong>seed</strong>, <strong>reseed</strong>, or <strong>truncate</strong> operations described above.</td>
+</tr>
+<tr class="row-even"><td><em class="guilabel">Grid set</em></td>
+<td>The name of the any valid <cite>grid set &lt;concepts.gridsets&gt;</cite> as defined for a given layer.</td>
+</tr>
+<tr class="row-odd"><td><em class="guilabel">Format</em></td>
+<td>Any valid image format as defined for that layer.</td>
+</tr>
+<tr class="row-even"><td><em class="guilabel">Zoom start</em></td>
+<td>The starting/minimum zoom level for the seed task.  Zoom level 00 is typically the first (smallest) zoom level.</td>
+</tr>
+<tr class="row-odd"><td><em class="guilabel">Zoom stop</em></td>
+<td>The final/maximum zoom level for the seed task.</td>
+</tr>
+<tr class="row-even"><td><em class="guilabel">Bounding box</em></td>
+<td>An optional subset of the layer&#8217;s maximum extent, useful for seeding only certain (more important) areas.  Values are given in the units of the grid set.  If ommitted, the layer&#8217;s maximum exten will be assumed.</td>
+</tr>
+</tbody>
+</table>
+<p>When ready to start the task, click <em class="guilabel">Submit</em>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Some seed tasks can take a <strong>very</strong> long time, and can easily fill up your disk.</p>
+</div>
+</div>
+<div class="section" id="managing-a-seed-task">
+<h2>Managing a seed task<a class="headerlink" href="#managing-a-seed-task" title="Permalink to this headline">¶</a></h2>
+<p>When a seed task is ongoing, returning to the layer&#8217;s Seed page will display the current status of the task, including projected duration and number of tiles, with details for each thread (if more than one).  Threads can be terminated by clicking the <em class="guilabel">Kill Thread</em> button next to the thread status.</p>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="demo.html" title="previous chapter">Demo Page</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="../services/index.html" title="next chapter">Services</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Seed Pages</a><ul>
+<li><a class="reference internal" href="#starting-a-seed-task">Starting a seed task</a></li>
+<li><a class="reference internal" href="#managing-a-seed-task">Managing a seed task</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="demo.html" title="previous chapter">Demo Page</a></li>
+            <li>Next: <a href="../services/index.html" title="next chapter">Services</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/webinterface/seed.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on May 26, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

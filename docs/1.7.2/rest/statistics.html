@@ -1,0 +1,182 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>In Memory Cache Statistics &mdash; GeoWebCache 1.7.2 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.7.2',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.7.2 User Manual" href="../index.html" />
+      <link rel="up" title="REST API" href="index.html" />
+      <link rel="next" title="Production" href="../production/index.html" />
+      <link rel="prev" title="Mass Truncation" href="masstruncate.html" />
+</head>
+<body class="rest/statistics">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.7.2 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.7.2 Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">REST API</a> &raquo;</li>
+  <li>In Memory Cache Statistics</li>
+</ul>
+        
+  <div class="section" id="in-memory-cache-statistics">
+<span id="rest-statistics"></span><h1>In Memory Cache Statistics<a class="headerlink" href="#in-memory-cache-statistics" title="Permalink to this headline">¶</a></h1>
+<p>The REST API allows you to get the in memory cache statistics if the <strong>blobstore</strong> used is an instance of <strong>MemoryBlobStore</strong>.</p>
+<div class="section" id="operations">
+<h2>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">/statistics</span></tt></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">Action</th>
+<th class="head">Return Code</th>
+<th class="head">Formats</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>GET</td>
+<td>Return a representation of the statistics</td>
+<td>200</td>
+<td>XML, JSON</td>
+</tr>
+<tr class="row-odd"><td>POST</td>
+<td>&nbsp;</td>
+<td>405</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>PUT</td>
+<td>&nbsp;</td>
+<td>405</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>DELETE</td>
+<td>&nbsp;</td>
+<td>405</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="available-requests">
+<h3>Available Requests<a class="headerlink" href="#available-requests" title="Permalink to this headline">¶</a></h3>
+<p>Request in XML:</p>
+<div class="highlight-xml"><div class="highlight"><pre>curl -v -u geowebcache:secured -XGET &quot;http://localhost:8080/geowebcache/rest/statistics.xml&quot;
+</pre></div>
+</div>
+<p>Sample response:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;gwcInMemoryCacheStatistics&gt;</span>
+        <span class="nt">&lt;hitCount&gt;</span>0<span class="nt">&lt;/hitCount&gt;</span>
+        <span class="nt">&lt;missCount&gt;</span>0<span class="nt">&lt;/missCount&gt;</span>
+        <span class="nt">&lt;evictionCount&gt;</span>0<span class="nt">&lt;/evictionCount&gt;</span>
+        <span class="nt">&lt;totalCount&gt;</span>0<span class="nt">&lt;/totalCount&gt;</span>
+        <span class="nt">&lt;hitRate&gt;</span>100.0<span class="nt">&lt;/hitRate&gt;</span>
+        <span class="nt">&lt;missRate&gt;</span>0.0<span class="nt">&lt;/missRate&gt;</span>
+        <span class="nt">&lt;currentMemoryOccupation&gt;</span>0.0<span class="nt">&lt;/currentMemoryOccupation&gt;</span>
+        <span class="nt">&lt;totalSize&gt;</span>67108864<span class="nt">&lt;/totalSize&gt;</span>
+        <span class="nt">&lt;actualSize&gt;</span>0<span class="nt">&lt;/actualSize&gt;</span>
+<span class="nt">&lt;/gwcInMemoryCacheStatistics&gt;</span>
+</pre></div>
+</div>
+<p>Request in JSON:</p>
+<div class="highlight-xml"><div class="highlight"><pre>curl -v -u geowebcache:secured -XGET &quot;http://localhost:8080/geowebcache/rest/statistics.json&quot;
+</pre></div>
+</div>
+<p>Sample response:</p>
+<div class="highlight-xml"><div class="highlight"><pre>{&quot;gwcInMemoryCacheStatistics&quot;:{&quot;missRate&quot;:0,&quot;totalCount&quot;:0,&quot;missCount&quot;:0,&quot;hitCount&quot;:0,&quot;actualSize&quot;:0,&quot;evictionCount&quot;:0,&quot;hitRate&quot;:100,&quot;totalSize&quot;:67108864,&quot;currentMemoryOccupation&quot;:0}}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="masstruncate.html" title="previous chapter">Mass Truncation</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="../production/index.html" title="next chapter">Production</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">In Memory Cache Statistics</a><ul>
+<li><a class="reference internal" href="#operations">Operations</a><ul>
+<li><a class="reference internal" href="#available-requests">Available Requests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="masstruncate.html" title="previous chapter">Mass Truncation</a></li>
+            <li>Next: <a href="../production/index.html" title="next chapter">Production</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/rest/statistics.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on Jul 21, 2015.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>

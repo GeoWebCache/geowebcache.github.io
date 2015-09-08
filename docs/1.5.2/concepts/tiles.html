@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <title>Tiles &mdash; GeoWebCache 1.5.2 User Manual</title>
+  <link rel="stylesheet" href="../_static/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../_static/blueprint/print.css" type="text/css" media="print" /> 
+  <!--[if IE]>
+  <link rel="stylesheet" href="../_static/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+  <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.5.2',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html'
+    };
+  </script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/searchtools.js"></script>
+  <script type="text/javascript" src="../searchindex.js"></script>
+  <link rel="shortcut icon" href="../_static/geowebcache.ico"/>
+      <link rel="top" title="GeoWebCache 1.5.2 User Manual" href="../index.html" />
+      <link rel="up" title="Concepts" href="index.html" />
+      <link rel="next" title="Gridsets and Gridsubsets" href="gridsets.html" />
+      <link rel="prev" title="Concepts" href="index.html" />
+</head>
+<body class="concepts/tiles">
+  <div id="header" class="selfclear">
+    <div class="wrap selfclear">
+      <div id="logo"><a href="../index.html">GeoWebCache 1.5.2 User Manual</a></div>
+      <ul id="top-nav">
+        <li class="first"><a href="http://geowebcache.org">Homepage</a></li>
+        <li><a href="../index.html">Documentation</a></li>
+      </ul>
+        <form id="quick-search" action="../search.html" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation&hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation&hellip;';" onfocus="if(this.value=='Search Documentation&hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="../_static/chrome/search_icon_green.png" />
+          </fieldset>
+        </form>
+    </div><!-- /.wrap -->
+  </div><!-- /#header -->
+  <div id="main">
+    <div class="wrap selfclear">
+      <div id="content">
+<ul id="breadcrumbs">
+  
+  <li><a href="../index.html">GeoWebCache 1.5.2 Home</a> &raquo;</li>
+  <li><a href="index.html" accesskey="U">Concepts</a> &raquo;</li>
+  <li>Tiles</li>
+</ul>
+        
+  <div class="section" id="tiles">
+<span id="concepts-tiles"></span><h1>Tiles<a class="headerlink" href="#tiles" title="Permalink to this headline">¶</a></h1>
+<p>GeoWebCache caches images retrieved from a WMS.  The smallest unit of image cached is known as a <strong>tile</strong>.  All tiles are assumed to be the same dimensions and are typically square (i.e. 256 pixels by 256 pixels).</p>
+<p>It is important to note that GeoWebCache&#8217;s tile cache is spatially agnostic.  The tiles are stored in a rectangular grid, indexed by (x,y) coordinates.  A z coordinate (zero-indexed) is used to denote the zoom level, resulting in each tile being indexed as a triplet (x,y,z).</p>
+<div class="section" id="tile-pyramid">
+<h2>Tile pyramid<a class="headerlink" href="#tile-pyramid" title="Permalink to this headline">¶</a></h2>
+<p>The tile system as saved by GeoWebCache is &#8220;pyramidal&#8221;, meaning that increasing zoom levels have a larger amount of tiles.  By default, and by far the most common case, for increasing values of z, the amount of tiles in that zoom level is four times the amount of the previous zoom level:</p>
+<div class="highlight-python"><div class="highlight"><pre>[number of tiles in zoom level z] = 4 * [number of tiles in zoom level (z-1)]
+</pre></div>
+</div>
+<p>When applied to square map projections where zoom level z = 0 would result in a single tile (such as the Google projection EPSG:900913 / EPSG:3857):</p>
+<div class="highlight-python"><div class="highlight"><pre>[number of tiles in zoom level z] = 4^z
+</pre></div>
+</div>
+<p>When applied to rectangular map projections where zoom level z=0 would result in two tiles (such as EPSG:4326 / lat/lon):</p>
+<div class="highlight-python"><div class="highlight"><pre>[number of tiles in zoom level z] = 2 * 4^z
+</pre></div>
+</div>
+</div>
+</div>
+
+
+      <div class="selfclear pagination-nav">
+          <div class="leftwise"><strong>Previous</strong>: <a href="index.html" title="previous chapter">Concepts</a></div>
+          <div class="rightwise"><strong>Next</strong>: <a href="gridsets.html" title="next chapter">Gridsets and Gridsubsets</a></div>
+      </div>
+      </div><!-- /#content> -->
+  <div id="sidebar" class="contrast">
+      <div id="toc" class="section">
+        <h3 class="pngfix">Table Of Contents</h3>
+        <ul>
+<li><a class="reference internal" href="#">Tiles</a><ul>
+<li><a class="reference internal" href="#tile-pyramid">Tile pyramid</a></li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-footer"></div>
+      </div>
+        <div class="section">
+          <h3>Continue Reading</h3>
+          <ul>
+            <li>Previous: <a href="index.html" title="previous chapter">Concepts</a></li>
+            <li>Next: <a href="gridsets.html" title="next chapter">Gridsets and Gridsubsets</a></li>
+          </ul>
+        </div>
+        <div class="section">
+        <h3>This Page</h3>
+        <ul class="this-page-menu">
+          <li><a href="../_sources/concepts/tiles.txt">Show Source</a></li>
+        </ul>
+        </div>
+  </div><!-- /#sidebar -->
+  </div><!-- /.wrap> -->
+</div><!-- /#main -->
+<div id="footer">
+  <div class="wrap">
+    &copy; Copyright OpenGeo, License: Creative Commons 3.0 - Attribution Share Alike.
+    Last updated on May 02, 2014.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div><!-- /.wrap> -->
+</div><!-- /#footer -->
+  </body>
+</html>
